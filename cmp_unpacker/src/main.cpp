@@ -61,7 +61,7 @@ read_string_from_istream(std::istream &s,std::streamsize const n)
   char_vector chars(static_cast<char_vector::size_type>(n));
   if(!(s.read(chars.data(),n)))
     return fcppt::optional<std::string>{};
-  return fcppt::optional<std::string>{std::string(chars.data(),static_cast<std::string::size_type>(n))};
+  return fcppt::optional<std::string>{std::string(chars.begin(),std::find(chars.begin(),chars.end(),0))};
 }
 
 fcppt::optional<file_table_entry>
