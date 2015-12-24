@@ -1,5 +1,6 @@
 #include <fcppt/config/external_begin.hpp>
 #include <iostream>
+#include <algorithm>
 #include <exception>
 #include <ostream>
 #include <vector>
@@ -9,9 +10,11 @@
 #include <boost/filesystem/fstream.hpp>
 #include <fcppt/config/external_end.hpp>
 #include <fcppt/optional.hpp>
+#include <fcppt/maybe.hpp>
+#include <fcppt/algorithm/map_concat.hpp>
 #include <fcppt/endianness/convert.hpp>
 #include <fcppt/endianness/format.hpp>
-#include <fcppt/optional_bind_construct.hpp>
+#include <fcppt/optional_bind.hpp>
 #include <fcppt/container/raw_vector.hpp>
 
 namespace cmp
@@ -19,9 +22,9 @@ namespace cmp
 typedef std::uint32_t size_type;
 
 struct file_table_entry {
-  std::string const name_;
-  cmp::size_type const offset_;
-  cmp::size_type const size_;
+  std::string name_;
+  cmp::size_type offset_;
+  cmp::size_type size_;
 
   file_table_entry(
     std::string const _name,
@@ -68,21 +71,56 @@ fcppt::optional<file_table_entry>
 read_single_file_table_entry(
   boost::filesystem::ifstream &s)
 {
+  // TODO: optional_filter, when it exists
   return
-    fcppt::optional_bind_construct(
+    fcppt::optional_bind(
       read_string_from_istream(s,12),
-      [&s](std::string const &file_name) { return file_table_entry(file_name,read_uint32le_from_istream(s),read_uint32le_from_istream(s)); });
+      [&s](std::string const &file_name)
+      {
+	return
+	  file_name.empty()
+	  ?
+	    fcppt::optional<file_table_entry>{}
+	  :
+	    fcppt::optional<file_table_entry>{
+	      file_table_entry{
+		file_name,
+		read_uint32le_from_istream(s),
+		read_uint32le_from_istream(s)}};
+      });
 }
 
-/*
 file_table const
 read_file_table(
   boost::filesystem::path const &p)
 {
+  typedef
+  std::vector<fcppt::optional<file_table_entry>>
+  optional_file_table;
+
   boost::filesystem::ifstream file_stream{p};
 
+  // TODO: generate_n
+  optional_file_table::size_type const max_cmp_fat_entries{200};
+  optional_file_table result;
+  result.reserve(max_cmp_fat_entries);
+  std::generate_n(
+    std::back_inserter(result),
+    max_cmp_fat_entries-1,
+    [&file_stream]() { auto entry = read_single_file_table_entry(file_stream); std::cerr << entry.get_unsafe().name() << "\n"; return entry; });
+  // TODO: flat_map for optional containers
+  return
+    fcppt::algorithm::map_concat<file_table>(
+      result,
+      [](optional_file_table::value_type const &r)
+      {
+	return
+	  fcppt::maybe(
+	    r,
+	    []() { return file_table{}; },
+	    [](file_table_entry const &e) { return file_table{e}; });
+      });
 }
-*/
 }
 
 namespace
@@ -106,7 +144,9 @@ main(
     return -1;
   }
   std::string const file_name(argv[1]);
-  boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name}};
-  fcppt::optional<cmp::file_table_entry> const entry{cmp::read_single_file_table_entry(file_stream)};
-  std::cout << entry.get_unsafe().name() << "\n";
+  cmp::file_table const files{cmp::read_file_table(boost::filesystem::path{file_name})};
+  std::cout << "found " << files.size() << " file(s)\n";
+  std::for_each(files.begin(),files.end(),[](cmp::file_table::value_type const &fte) {
+    std::cout << fte.name() << "\n";
+  });
 }
