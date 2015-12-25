@@ -72,7 +72,7 @@ read_string_from_istream(std::istream &s,std::streamsize const n)
 
 fcppt::optional<file_table_entry>
 read_single_file_table_entry(
-  boost::filesystem::ifstream &s)
+  std::istream &s)
 {
   return
     fcppt::optional_map(
@@ -90,13 +90,15 @@ read_single_file_table_entry(
 
 file_table const
 read_file_table(
-  boost::filesystem::path const &p)
+  std::istream &file_stream)
 {
   typedef
   std::vector<fcppt::optional<file_table_entry>>
   optional_file_table;
 
-  boost::filesystem::ifstream file_stream{p};
+  // We don't know in what state the stream is in - better seek to the
+  // beginning
+  file_stream.seekg(0, std::ios_base::beg);
 
   return
     fcppt::algorithm::cat_optionals<file_table>(
@@ -105,6 +107,26 @@ read_file_table(
 	[&file_stream]() {
 	  return read_single_file_table_entry(file_stream);
 	}));
+}
+
+fcppt::container::raw_vector<char> const
+read_cmp_entry(
+  file_table_entry const &entry,
+  std::istream &file_stream)
+{
+  fcppt::container::raw_vector<char> result(entry.size());
+  file_stream.seekg(entry.offset(), std::ios_base::beg);
+  file_stream.read(result.data(),entry.size());
+  return result;
+}
+
+void
+write_vector_to_filesystem(
+  fcppt::container::raw_vector<char> const &v,
+  boost::filesystem::path const &base_path)
+{
+  std::cout << "Writing " << base_path << "\n";
+  boost::filesystem::ofstream{base_path}.write(v.data(), static_cast<std::streamsize>(v.size()));
 }
 }
 
@@ -129,9 +151,18 @@ main(
     return -1;
   }
   std::string const file_name(argv[1]);
-  cmp::file_table const files{cmp::read_file_table(boost::filesystem::path{file_name})};
+  boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name}};
+  cmp::file_table const files{cmp::read_file_table(file_stream)};
   std::cout << "found " << files.size() << " file(s)\n";
-  std::for_each(files.begin(),files.end(),[](cmp::file_table::value_type const &fte) {
-    std::cout << fte.name() << "\n";
+  boost::filesystem::path base_path{"data/"};
+  std::for_each(
+    files.begin(),
+    files.end(),
+    [&base_path,&file_stream](cmp::file_table::value_type const &fte)
+    {
+      std::cout << "Writing " << fte.name() << " to data/\n";
+      cmp::write_vector_to_filesystem(
+	read_cmp_entry(fte,file_stream),
+	base_path / fte.name());
   });
 }
