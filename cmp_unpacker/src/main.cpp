@@ -10,11 +10,14 @@
 #include <boost/filesystem/fstream.hpp>
 #include <fcppt/config/external_end.hpp>
 #include <fcppt/optional.hpp>
+#include <fcppt/optional_map.hpp>
+#include <fcppt/algorithm/generate_n.hpp>
+#include <fcppt/algorithm/cat_optionals.hpp>
 #include <fcppt/maybe.hpp>
 #include <fcppt/algorithm/map_concat.hpp>
 #include <fcppt/endianness/convert.hpp>
 #include <fcppt/endianness/format.hpp>
-#include <fcppt/optional_bind.hpp>
+#include <fcppt/optional_filter.hpp>
 #include <fcppt/container/raw_vector.hpp>
 
 namespace cmp
@@ -71,22 +74,17 @@ fcppt::optional<file_table_entry>
 read_single_file_table_entry(
   boost::filesystem::ifstream &s)
 {
-  // TODO: optional_filter, when it exists
   return
-    fcppt::optional_bind(
-      read_string_from_istream(s,12),
+    fcppt::optional_map(
+      fcppt::optional_filter(
+	read_string_from_istream(s,12),
+	[](std::string const &file_name) { return !file_name.empty(); }),
       [&s](std::string const &file_name)
       {
-	return
-	  file_name.empty()
-	  ?
-	    fcppt::optional<file_table_entry>{}
-	  :
-	    fcppt::optional<file_table_entry>{
-	      file_table_entry{
+	return file_table_entry{
 		file_name,
 		read_uint32le_from_istream(s),
-		read_uint32le_from_istream(s)}};
+		read_uint32le_from_istream(s)};
       });
 }
 
@@ -100,26 +98,13 @@ read_file_table(
 
   boost::filesystem::ifstream file_stream{p};
 
-  // TODO: generate_n
-  optional_file_table::size_type const max_cmp_fat_entries{200};
-  optional_file_table result;
-  result.reserve(max_cmp_fat_entries);
-  std::generate_n(
-    std::back_inserter(result),
-    max_cmp_fat_entries-1,
-    [&file_stream]() { auto entry = read_single_file_table_entry(file_stream); std::cerr << entry.get_unsafe().name() << "\n"; return entry; });
-  // TODO: flat_map for optional containers
   return
-    fcppt::algorithm::map_concat<file_table>(
-      result,
-      [](optional_file_table::value_type const &r)
-      {
-	return
-	  fcppt::maybe(
-	    r,
-	    []() { return file_table{}; },
-	    [](file_table_entry const &e) { return file_table{e}; });
-      });
+    fcppt::algorithm::cat_optionals<file_table>(
+      fcppt::algorithm::generate_n<optional_file_table>(
+	200u,
+	[&file_stream]() {
+	  return read_single_file_table_entry(file_stream);
+	}));
 }
 }
 
