@@ -25,10 +25,11 @@ namespace cmp
 typedef std::uint32_t size_type;
 
 struct file_table_entry {
+private:
   std::string name_;
   cmp::size_type offset_;
   cmp::size_type size_;
-
+public:
   file_table_entry(
     std::string const _name,
     cmp::size_type const _offset,
@@ -60,7 +61,7 @@ read_uint32le_from_istream(std::istream &s)
   return fcppt::endianness::convert(result,fcppt::endianness::format::little);
 }
 
-fcppt::optional<std::string> const
+fcppt::optional<std::string>
 read_string_from_istream(std::istream &s,std::streamsize const n)
 {
   typedef fcppt::container::raw_vector<char> char_vector;
@@ -88,7 +89,7 @@ read_single_file_table_entry(
       });
 }
 
-file_table const
+file_table
 read_file_table(
   std::istream &file_stream)
 {
@@ -109,7 +110,7 @@ read_file_table(
 	}));
 }
 
-fcppt::container::raw_vector<char> const
+fcppt::container::raw_vector<char>
 read_cmp_entry(
   file_table_entry const &entry,
   std::istream &file_stream)
