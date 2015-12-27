@@ -112,14 +112,14 @@ read_pixel_plane(
     int const c = s.get();
     if(c == std::istream::traits_type::eof())
       throw std::runtime_error("premature end of file after "+std::to_string(std::distance(result.begin(),current_pixel))+"th pixel");
-    *current_pixel++ = c & 1;
-    *current_pixel++ = c & 2;
-    *current_pixel++ = c & 4;
-    *current_pixel++ = c & 8;
-    *current_pixel++ = c & 16;
-    *current_pixel++ = c & 32;
-    *current_pixel++ = c & 64;
     *current_pixel++ = c & 128;
+    *current_pixel++ = c & 64;
+    *current_pixel++ = c & 32;
+    *current_pixel++ = c & 16;
+    *current_pixel++ = c & 8;
+    *current_pixel++ = c & 4;
+    *current_pixel++ = c & 2;
+    *current_pixel++ = c & 1;
     s.ignore(stride);
   }
 
@@ -183,6 +183,16 @@ operator*(
     rgb_pixel_map<T>(p,[m](T const t) { return static_cast<T>(m * t); });
 }
 
+template<typename T>
+rgb_pixel<T>
+operator+(
+  rgb_pixel<T> const &l,
+  rgb_pixel<T> const &r)
+{
+  return
+    rgb_pixel<T>{l.r()+r.r(),l.g()+r.g(),l.b()+r.b()};
+}
+
 template<typename U,typename T>
 rgb_pixel<U>
 rgb_pixel_static_cast(rgb_pixel<T> const &p)
@@ -199,11 +209,15 @@ bgri_indices_to_pixel(
   bool const i)
 {
   return
-    rgb_pixel_static_cast<unsigned char>(
-      (i ? 2 : 0) *
-      rgb_pixel_map<int>(
-	rgb_pixel<bool>{r,g,b},
-	[](bool const p) { return p ? 127 : 0; }));
+    r && g && !i && !b
+    ?
+      rgb_pixel<unsigned char>{0xa8,0x54,0}
+    :
+      rgb_pixel_static_cast<unsigned char>(
+	((i ? 1 : 0) * rgb_pixel<int>{0x54,0x54,0x54}) +
+	rgb_pixel_map<int>(
+	  rgb_pixel<bool>{r,g,b},
+	  [](bool const p) { return p ? 0xa8 : 0; }));
 }
 
 
@@ -350,7 +364,7 @@ int main(
 
   boost::filesystem::ifstream fs{ega_file_name};
 
-  auto image = ega::read_planar_bgri_stream(fs);
+  auto image = ega::read_byte_planar_bgri_stream(fs);
 
   std::cout << ega::write_ppm(image);
 }
