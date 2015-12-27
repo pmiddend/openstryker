@@ -1,4 +1,9 @@
 #include <fcppt/container/grid/object.hpp>
+#include <fcppt/make_int_range.hpp>
+#include <fcppt/container/grid/make_pos_ref_crange_start_end.hpp>
+#include <fcppt/container/grid/min.hpp>
+#include <fcppt/container/grid/pos_reference.hpp>
+#include <fcppt/container/grid/sup.hpp>
 #include <fcppt/math/dim/comparison.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <cstddef>
@@ -12,6 +17,79 @@
 #include <fcppt/config/external_end.hpp>
 #include <fcppt/no_init.hpp>
 
+namespace
+{
+
+template<typename T>
+std::vector<std::vector<T>>
+grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
+{
+  using namespace fcppt::container::grid;
+  using fcppt::algorithm::map;
+  
+  typedef
+  object<T,2>
+  input_grid;
+
+  typedef typename
+  input_grid::pos
+  input_pos;
+  
+  typedef typename
+  input_grid::size_type
+  input_size_type;
+
+  typedef
+  pos_ref_range<input_grid const>
+  pos_ref_range;
+
+  typedef
+  std::vector<pos_ref_range>
+  row_vector;
+
+  row_vector const row_ranges =
+    map<row_vector>(
+      fcppt::make_int_range<input_size_type>(0,g.size().h()),
+      [&g](input_size_type const y)
+      {
+        return
+	  make_pos_ref_crange_start_end<input_grid>(
+	      g,
+	      min<input_size_type,2>(input_pos{0u,y}),
+	      sup<input_size_type,2>(input_pos(g.size().w(),y+1u)));
+      });
+
+  typedef
+  std::vector<std::vector<T>>
+  result_vector;
+
+  return
+    map<result_vector>(
+      row_ranges,
+      [](pos_ref_range const &row)
+      {
+	return
+	  map<typename result_vector::value_type>(
+	    row,
+	    [](pos_reference<input_grid const> const &posref) { return posref.value(); });
+      });
+}
+
+template<typename RowResult,typename ColResult,typename T,typename FunctionRow,typename FunctionCol>
+ColResult
+grid_row_col_app(
+  fcppt::container::grid::object<T,2> const &g,
+  FunctionRow const &frow,
+  FunctionCol const &fcol)
+{
+  return
+    fcol(
+      fcppt::algorithm::map<std::vector<RowResult>>(
+	grid_row_vectors(g),
+	frow));
+}
+}
+
 namespace ega
 {
 typedef
@@ -21,7 +99,8 @@ pixel_plane;
 pixel_plane
 read_pixel_plane(
   std::istream &s,
-  pixel_plane::dim const &dims)
+  pixel_plane::dim const &dims,
+  std::streamsize const stride)
 {
   if(dims.w() % 8u != 0)
     throw std::runtime_error(std::to_string(dims.w())+" is not a multiple of 8");
@@ -40,9 +119,10 @@ read_pixel_plane(
     *current_pixel++ = c & 16;
     *current_pixel++ = c & 32;
     *current_pixel++ = c & 64;
-    *current_pixel++ = c & 128;    
+    *current_pixel++ = c & 128;
+    s.ignore(stride);
   }
-  
+
   return result;
 }
 
@@ -112,10 +192,10 @@ rgb_pixel_static_cast(rgb_pixel<T> const &p)
 
 // Shoutout to http://www.shikadi.net/moddingwiki/EGA_Palette
 rgb_pixel<unsigned char>
-rgbi_indices_to_pixel(
-  bool const r,
-  bool const g,
+bgri_indices_to_pixel(
   bool const b,
+  bool const g,
+  bool const r,
   bool const i)
 {
   return
@@ -123,7 +203,7 @@ rgbi_indices_to_pixel(
       (i ? 2 : 0) *
       rgb_pixel_map<int>(
 	rgb_pixel<bool>{r,g,b},
-	[](bool const p) { return p ? 128 : 0; }));
+	[](bool const p) { return p ? 127 : 0; }));
 }
 
 
@@ -163,7 +243,7 @@ grid_apply4(
 
   for(
     source_iterator ait = a.cbegin(),bit = b.cbegin(),cit = c.cbegin(),dit = d.cbegin();
-    ait != c.cend();
+    ait != a.cend();
     ++ait,++bit,++cit,++dit) {
     *dest_it++ = f(*ait,*bit,*cit,*dit);
   }
@@ -176,16 +256,73 @@ fcppt::container::grid::object<rgb_pixel<unsigned char>,2>
 rgb_pixel_grid;
 
 rgb_pixel_grid
+read_byte_planar_bgri_stream(std::istream &s)
+{
+  auto d = rgb_pixel_grid::dim{320u,200u};
+  std::streamsize const stride{0};
+  return
+    grid_apply4<rgb_pixel<unsigned char>>(
+      read_pixel_plane(s,d,stride),
+      read_pixel_plane(s,d,stride),
+      read_pixel_plane(s,d,stride),
+      read_pixel_plane(s,d,stride),
+      bgri_indices_to_pixel);
+}
+
+rgb_pixel_grid
 read_planar_bgri_stream(std::istream &s)
 {
   auto d = rgb_pixel_grid::dim{320u,200u};
+  std::streamoff const stream_start{s.tellg()};
+  std::streamsize const stride{3};
+  auto b_plane = read_pixel_plane(s,d,stride);
+  s.seekg(stream_start+1,std::ios_base::beg);
+  auto g_plane = read_pixel_plane(s,d,stride);
+  s.seekg(stream_start+2,std::ios_base::beg);
+  auto r_plane = read_pixel_plane(s,d,stride);
+  s.seekg(stream_start+3,std::ios_base::beg);
+  auto i_plane = read_pixel_plane(s,d,stride);
   return
     grid_apply4<rgb_pixel<unsigned char>>(
-      read_pixel_plane(s,d),
-      read_pixel_plane(s,d),
-      read_pixel_plane(s,d),
-      read_pixel_plane(s,d),
-      rgbi_indices_to_pixel);
+      b_plane,
+      g_plane,
+      r_plane,
+      i_plane,
+      bgri_indices_to_pixel);
+}
+
+std::string
+write_ppm(
+  rgb_pixel_grid const &g)
+{
+  std::cout << "P3\n";
+  std::cout << g.size().w() << " " << g.size().h() << "\n";
+  std::cout << "254\n";
+  return
+    grid_row_col_app<std::string,std::string>(
+      g,
+      [](std::vector<rgb_pixel<unsigned char>> const &row)
+      {
+	return
+	  fcppt::algorithm::fold(
+	    row,
+	    std::string{},
+	    [](rgb_pixel<unsigned char> const &p,std::string const &s)
+	    {
+	      return s + " " + std::to_string(static_cast<int>(p.r())) + " " + std::to_string(static_cast<int>(p.g())) + " " + std::to_string(static_cast<int>(p.b()));
+	    });
+      },
+      [](std::vector<std::string> const &rows)
+      {
+	return
+	  fcppt::algorithm::fold(
+	    rows,
+	    std::string{},
+	    [](std::string const &new_row,std::string const &result)
+	    {
+	      return result + new_row + "\n";
+	    });
+      });
 }
 }
 
@@ -211,5 +348,9 @@ int main(
 
   boost::filesystem::path const ega_file_name{std::string{argv[1]}};
 
-  
+  boost::filesystem::ifstream fs{ega_file_name};
+
+  auto image = ega::read_planar_bgri_stream(fs);
+
+  std::cout << ega::write_ppm(image);
 }
