@@ -1,3 +1,4 @@
+#include <fcppt/container/grid/apply.hpp>
 #include <fcppt/container/grid/object.hpp>
 #include <fcppt/make_int_range.hpp>
 #include <fcppt/container/grid/make_pos_ref_crange_start_end.hpp>
@@ -235,58 +236,30 @@ all_equal(T const &t,T const &u,Args...args)
   return t == u && all_equal(t,args...);
 }
 
-template<typename U,typename T,typename Function>
-fcppt::container::grid::object<U,2>
-grid_apply4(
-  fcppt::container::grid::object<T,2> const &a,
-  fcppt::container::grid::object<T,2> const &b,
-  fcppt::container::grid::object<T,2> const &c,
-  fcppt::container::grid::object<T,2> const &d,
-  Function const &f)
-{
-  if(!all_equal(a.size(),b.size(),c.size(),d.size()))
-    throw std::runtime_error("invalid grid dimensions, not all equal");
-
-  fcppt::container::grid::object<U,2> result{a.size(),fcppt::no_init()};
-
-  typename fcppt::container::grid::object<U,2>::iterator dest_it = result.begin();
-    
-  typedef typename
-  fcppt::container::grid::object<T,2>::const_iterator
-  source_iterator;
-
-  for(
-    source_iterator ait = a.cbegin(),bit = b.cbegin(),cit = c.cbegin(),dit = d.cbegin();
-    ait != a.cend();
-    ++ait,++bit,++cit,++dit) {
-    *dest_it++ = f(*ait,*bit,*cit,*dit);
-  }
-
-  return result;
-}
-
 typedef
 fcppt::container::grid::object<rgb_pixel<unsigned char>,2>
 rgb_pixel_grid;
 
 rgb_pixel_grid
-read_byte_planar_bgri_stream(std::istream &s)
+read_planar_bgri_stream(std::istream &s)
 {
   auto d = rgb_pixel_grid::dim{320u,200u};
   std::streamsize const stride{0};
   return
-    grid_apply4<rgb_pixel<unsigned char>>(
+    fcppt::container::grid::apply(
+      bgri_indices_to_pixel,
       read_pixel_plane(s,d,stride),
       read_pixel_plane(s,d,stride),
       read_pixel_plane(s,d,stride),
-      read_pixel_plane(s,d,stride),
-      bgri_indices_to_pixel);
+      read_pixel_plane(s,d,stride));
 }
 
 rgb_pixel_grid
-read_planar_bgri_stream(std::istream &s)
+read_byte_planar_bgri_stream(std::istream &s)
 {
-  auto d = rgb_pixel_grid::dim{320u,200u};
+  auto d = rgb_pixel_grid::dim{320u,192u};
+//  auto d = rgb_pixel_grid::dim{16u,3480u};
+//  auto d = rgb_pixel_grid::dim{16u,3840u};
   std::streamoff const stream_start{s.tellg()};
   std::streamsize const stride{3};
   auto b_plane = read_pixel_plane(s,d,stride);
@@ -297,12 +270,12 @@ read_planar_bgri_stream(std::istream &s)
   s.seekg(stream_start+3,std::ios_base::beg);
   auto i_plane = read_pixel_plane(s,d,stride);
   return
-    grid_apply4<rgb_pixel<unsigned char>>(
+    fcppt::container::grid::apply(
+      bgri_indices_to_pixel,
       b_plane,
       g_plane,
       r_plane,
-      i_plane,
-      bgri_indices_to_pixel);
+      i_plane);
 }
 
 std::string
