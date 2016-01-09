@@ -9,15 +9,15 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <fcppt/config/external_end.hpp>
-#include <fcppt/optional.hpp>
-#include <fcppt/optional_map.hpp>
+#include <fcppt/optional/object.hpp>
+#include <fcppt/optional/map.hpp>
 #include <fcppt/algorithm/generate_n.hpp>
 #include <fcppt/algorithm/cat_optionals.hpp>
-#include <fcppt/maybe.hpp>
+#include <fcppt/optional/maybe.hpp>
 #include <fcppt/algorithm/map_concat.hpp>
 #include <fcppt/endianness/convert.hpp>
 #include <fcppt/endianness/format.hpp>
-#include <fcppt/optional_filter.hpp>
+#include <fcppt/optional/filter.hpp>
 #include <fcppt/container/raw_vector.hpp>
 
 namespace cmp
@@ -61,23 +61,23 @@ read_uint32le_from_istream(std::istream &s)
   return fcppt::endianness::convert(result,fcppt::endianness::format::little);
 }
 
-fcppt::optional<std::string>
+fcppt::optional::object<std::string>
 read_string_from_istream(std::istream &s,std::streamsize const n)
 {
   typedef fcppt::container::raw_vector<char> char_vector;
   char_vector chars(static_cast<char_vector::size_type>(n));
   if(!(s.read(chars.data(),n)))
-    return fcppt::optional<std::string>{};
-  return fcppt::optional<std::string>{std::string(chars.begin(),std::find(chars.begin(),chars.end(),0))};
+    return fcppt::optional::object<std::string>{};
+  return fcppt::optional::object<std::string>{std::string(chars.begin(),std::find(chars.begin(),chars.end(),0))};
 }
 
-fcppt::optional<file_table_entry>
+fcppt::optional::object<file_table_entry>
 read_single_file_table_entry(
   std::istream &s)
 {
   return
-    fcppt::optional_map(
-      fcppt::optional_filter(
+    fcppt::optional::map(
+      fcppt::optional::filter(
 	read_string_from_istream(s,12),
 	[](std::string const &file_name) { return !file_name.empty(); }),
       [&s](std::string const &file_name)
@@ -94,7 +94,7 @@ read_file_table(
   std::istream &file_stream)
 {
   typedef
-  std::vector<fcppt::optional<file_table_entry>>
+  std::vector<fcppt::optional::object<file_table_entry>>
   optional_file_table;
 
   // We don't know in what state the stream is in - better seek to the
