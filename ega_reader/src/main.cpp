@@ -20,7 +20,6 @@
 
 namespace
 {
-
 template<typename T>
 std::vector<std::vector<T>>
 grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
@@ -91,6 +90,8 @@ grid_row_col_app(
 }
 }
 
+namespace
+{
 namespace ega
 {
 typedef
@@ -310,6 +311,7 @@ write_ppm(
 	      return result + new_row + "\n";
 	    });
       });
+}
 }
 }
 

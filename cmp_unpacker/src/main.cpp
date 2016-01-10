@@ -20,6 +20,8 @@
 #include <fcppt/optional/filter.hpp>
 #include <fcppt/container/raw_vector.hpp>
 
+namespace
+{
 namespace cmp
 {
 typedef std::uint32_t size_type;
@@ -128,6 +130,7 @@ write_vector_to_filesystem(
 {
   std::cout << "Writing " << base_path << "\n";
   boost::filesystem::ofstream{base_path}.write(v.data(), static_cast<std::streamsize>(v.size()));
+}
 }
 }
 
