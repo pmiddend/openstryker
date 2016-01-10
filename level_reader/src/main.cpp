@@ -1,4 +1,5 @@
 #include <fcppt/io/read.hpp>
+#include <fcppt/either/apply.hpp>
 #include <fcppt/algorithm/generate_n.hpp>
 #include <fcppt/container/raw_vector.hpp>
 #include <fcppt/optional/apply.hpp>
@@ -7,6 +8,7 @@
 #include <fcppt/either/object.hpp>
 #include <fcppt/either/map.hpp>
 #include <fcppt/either/cat.hpp>
+#include <fcppt/either/bind.hpp>
 #include <fcppt/either/from_optional.hpp>
 #include <fcppt/either/apply.hpp>
 #include <fcppt/make_strong_typedef.hpp>
@@ -26,20 +28,20 @@ FCPPT_MAKE_STRONG_TYPEDEF(
   error_string);
 
 template<std::streamsize N>
-fcppt::either::object<std::string,error_string>
+fcppt::either::object<error_string,std::string>
 read_string(std::istream &s,std::string const &_error)
 {
   char chars[N];
   return
     s.read(chars,N)
     ?
-      fcppt::either::object<std::string,error_string>{std::string(chars,std::find(chars,chars+N,0))}
+      fcppt::either::object<error_string,std::string>{std::string(chars,std::find(chars,chars+N,0))}
     :
-      fcppt::either::object<std::string,error_string>{error_string{_error}};
+      fcppt::either::object<error_string,std::string>{error_string{_error}};
 }
 
 template<typename T>
-fcppt::either::object<fcppt::container::raw_vector<T>,error_string>
+fcppt::either::object<error_string,fcppt::container::raw_vector<T>>
 read_array(
   std::istream &s,
   std::size_t const n,
@@ -47,19 +49,20 @@ read_array(
   error_string const &_error)
 {
   fcppt::container::raw_vector<char> chars(n * sizeof(T));
-  if(!s.read(chars.data(),static_cast<std::streamsize>(chars.size())))
-    return fcppt::either::object<fcppt::container::raw_vector<T>,error_string>{_error};
 
   typedef
   fcppt::container::raw_vector<T>
   result_container;
+  
+  if(!s.read(chars.data(),static_cast<std::streamsize>(chars.size())))
+    return fcppt::either::object<error_string,result_container>{_error};
 
   result_container result(n);
   for(std::size_t i = 0; i < chars.size();i += sizeof(T)) {
     std::memcpy(&result[i/sizeof(T)],&chars[i],sizeof(T));
     result[i/sizeof(T)] = fcppt::endianness::convert(result[i/sizeof(T)],_format);
   }
-  return fcppt::either::object<result_container,error_string>{result};
+  return fcppt::either::object<error_string,result_container>{result};
 }
 
 }
@@ -218,8 +221,7 @@ fcppt::either::object<error_string,level::actor_container>
 load_actors(std::istream &s)
 {
   return
-    fcppt::either::cat(
-      fcppt::either::map(
+      fcppt::either::bind(
 	read_to_either<level::actor_container_length_type>(
 	  s,
 	  fcppt::endianness::format::little,
@@ -227,13 +229,14 @@ load_actors(std::istream &s)
 	[&s](level::actor_container_length_type const actor_count)
 	{
 	  return
-	    fcppt::algorithm::generate_n<std::vector<fcppt::either::object<error_string,level_actor>>>(
-	      static_cast<std::size_t>(actor_count),
-	      [&s]() { return load_actor(s); });
-	}));
+	    fcppt::either::cat<level::actor_container>(
+	      fcppt::algorithm::generate_n<std::vector<fcppt::either::object<error_string,level_actor>>>(
+		static_cast<std::size_t>(actor_count),
+		[&s]() { return load_actor(s); }));
+	});
 }
 
-fcppt::either::object<level,error_string>
+fcppt::either::object<error_string,level>
 load_level(std::istream &s)
 {
   auto mask_tiles = read_string<12>(s,"mask_tiles");
@@ -248,6 +251,35 @@ load_level(std::istream &s)
   auto actors = load_actors(s);
   auto unknown = load_unknown(s);
   auto tiles = read_array<std::uint16_t>(s,16767u,fcppt::endianness::format::little,error_string{"tiles"});
+  return
+    fcppt::either::apply(
+    [](
+      std::string const &mask_tiles,
+      std::string const &solid_tiles,
+      std::string const &backdrop,
+      std::string const &unused1,
+      std::string const &unused2,
+      std::string const &music,
+      std::string const &unused3,    
+      level::light_flag_type const light_flags,
+      level::width_type const width,
+      level::actor_container const &actors,
+      level::unknown_container const &unknown,
+      level::tile_container const &tiles) {
+	return level{mask_tiles,solid_tiles,backdrop,unused1,unused2,music,unused3,light_flags,width,actors,unknown,tiles};
+      },
+      mask_tiles,
+      solid_tiles,
+      backdrop,
+      unused1,
+      unused2,
+      music,
+      unused3,
+      light_flags,
+      width,
+      actors,
+      unknown,
+      tiles);
 }
 }
 
