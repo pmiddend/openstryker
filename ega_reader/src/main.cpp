@@ -138,13 +138,6 @@ private:
   value_type g_;
   value_type b_;
 public:
-  rgb_pixel()
-  :
-    r_{},
-    g_{},
-    b_{}
-  {}
-
   rgb_pixel(
     value_type const _r,
     value_type const _g,
