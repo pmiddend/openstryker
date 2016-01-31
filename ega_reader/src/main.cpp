@@ -235,20 +235,6 @@ fcppt::container::grid::object<rgb_pixel<unsigned char>,2>
 rgb_pixel_grid;
 
 rgb_pixel_grid
-read_planar_bgri_stream(std::istream &s)
-{
-  auto d = rgb_pixel_grid::dim{320u,200u};
-  std::streamsize const stride{0};
-  return
-    fcppt::container::grid::apply(
-      bgri_indices_to_pixel,
-      read_pixel_plane(s,d,stride),
-      read_pixel_plane(s,d,stride),
-      read_pixel_plane(s,d,stride),
-      read_pixel_plane(s,d,stride));
-}
-
-rgb_pixel_grid
 read_byte_planar_bgri_stream(std::istream &s)
 {
   auto d = rgb_pixel_grid::dim{320u,192u};
