@@ -1,6 +1,7 @@
 #include <fcppt/container/grid/apply.hpp>
 #include <fcppt/container/grid/object.hpp>
 #include <fcppt/make_int_range.hpp>
+#include <fcppt/cast/promote.hpp>
 #include <fcppt/container/grid/make_pos_ref_crange_start_end.hpp>
 #include <fcppt/container/grid/min.hpp>
 #include <fcppt/container/grid/pos_reference.hpp>
@@ -276,7 +277,15 @@ write_ppm(
 	    std::string{},
 	    [](rgb_pixel<unsigned char> const &p,std::string const &s)
 	    {
-	      return s + " " + std::to_string(static_cast<int>(p.r())) + " " + std::to_string(static_cast<int>(p.g())) + " " + std::to_string(static_cast<int>(p.b()));
+              auto const mapped(
+                rgb_pixel_map<std::string>(
+                  p,
+                  [](unsigned char const e)
+                  {
+                    return std::to_string(fcppt::cast::promote(e));
+                  }));
+
+	      return s + " " + mapped.r() + " " + mapped.g() + " " + mapped.b();
 	    });
       },
       [](std::vector<std::string> const &rows)
