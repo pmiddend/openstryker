@@ -27,7 +27,7 @@ grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
 {
   using namespace fcppt::container::grid;
   using fcppt::algorithm::map;
-  
+
   typedef
   object<T,2>
   input_grid;
@@ -35,7 +35,7 @@ grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
   typedef typename
   input_grid::pos
   input_pos;
-  
+
   typedef typename
   input_grid::size_type
   input_size_type;
@@ -150,9 +150,9 @@ public:
   {}
 
   value_type r() const { return r_; }
-  
+
   value_type g() const { return g_; }
-  
+
   value_type b() const { return b_; }
 };
 

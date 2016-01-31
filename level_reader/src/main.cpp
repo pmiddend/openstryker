@@ -53,7 +53,7 @@ read_array(
   typedef
   fcppt::container::raw_vector<T>
   result_container;
-  
+
   if(!s.read(chars.data(),static_cast<std::streamsize>(chars.size())))
     return fcppt::either::object<error_string,result_container>{_error};
 
@@ -96,7 +96,7 @@ public:
   typedef
   std::uint16_t
   actor_container_length_type;
-  
+
   typedef
   std::vector<level_actor>
   actor_container;
@@ -104,7 +104,7 @@ public:
   typedef
   std::array<std::uint8_t,480u>
   unknown_container;
-  
+
   typedef
   fcppt::container::raw_vector<std::uint16_t>
   tile_container;
@@ -133,7 +133,7 @@ public:
     std::string const &,
     std::string const &,
     std::string const &_music,
-    std::string const &,    
+    std::string const &,
     light_flag_type const _light_flags,
     width_type const _width,
     actor_container const &_actors,
@@ -260,7 +260,7 @@ load_level(std::istream &s)
       std::string const &unused1,
       std::string const &unused2,
       std::string const &music,
-      std::string const &unused3,    
+      std::string const &unused3,
       level::light_flag_type const light_flags,
       level::width_type const width,
       level::actor_container const &actors,
@@ -287,5 +287,5 @@ int main(
   int const argc,
   char const * const *argv)
 {
-  
+
 }
