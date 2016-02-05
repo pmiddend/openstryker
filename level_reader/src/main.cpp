@@ -65,8 +65,6 @@ read_array(
   return fcppt::either::object<error_string,result_container>{result};
 }
 
-}
-
 namespace msl
 {
 struct level_actor
@@ -254,19 +252,19 @@ load_level(std::istream &s)
   return
     fcppt::either::apply(
     [](
-      std::string const &mask_tiles,
-      std::string const &solid_tiles,
-      std::string const &backdrop,
-      std::string const &unused1,
-      std::string const &unused2,
-      std::string const &music,
-      std::string const &unused3,
-      level::light_flag_type const light_flags,
-      level::width_type const width,
-      level::actor_container const &actors,
-      level::unknown_container const &unknown,
-      level::tile_container const &tiles) {
-	return level{mask_tiles,solid_tiles,backdrop,unused1,unused2,music,unused3,light_flags,width,actors,unknown,tiles};
+      std::string const &_mask_tiles,
+      std::string const &_solid_tiles,
+      std::string const &_backdrop,
+      std::string const &_unused1,
+      std::string const &_unused2,
+      std::string const &_music,
+      std::string const &_unused3,
+      level::light_flag_type const _light_flags,
+      level::width_type const _width,
+      level::actor_container const &_actors,
+      level::unknown_container const &_unknown,
+      level::tile_container const &_tiles) {
+	return level{_mask_tiles,_solid_tiles,_backdrop,_unused1,_unused2,_music,_unused3,_light_flags,_width,_actors,_unknown,_tiles};
       },
       mask_tiles,
       solid_tiles,
@@ -280,6 +278,7 @@ load_level(std::istream &s)
       actors,
       unknown,
       tiles);
+}
 }
 }
 
