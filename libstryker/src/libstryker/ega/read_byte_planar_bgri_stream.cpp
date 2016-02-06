@@ -62,7 +62,7 @@ read_pixel_plane(
     pixel_plane::iterator current_pixel = result.begin();
     current_pixel != result.end();)
   {
-    int const c = s.get();
+    int const c{s.get()};
     if(c == std::istream::traits_type::eof())
       throw std::runtime_error("premature end of file after "+std::to_string(std::distance(result.begin(),current_pixel))+"th pixel");
     *current_pixel++ = c & 128;
@@ -112,18 +112,22 @@ libstryker::ega::rgb_pixel_grid
 libstryker::ega::read_byte_planar_bgri_stream(
   std::istream &s)
 {
-  auto d = rgb_pixel_grid::dim{320u,192u};
+  rgb_pixel_grid::dim const d{320u,192u};
 //  auto d = rgb_pixel_grid::dim{16u,3480u};
 //  auto d = rgb_pixel_grid::dim{16u,3840u};
   std::streamoff const stream_start{s.tellg()};
   std::streamsize const stride{3};
-  auto b_plane = ::ega::read_pixel_plane(s,d,stride);
+
+  ::ega::pixel_plane const b_plane{::ega::read_pixel_plane(s,d,stride)};
   s.seekg(stream_start+1,std::ios_base::beg);
-  auto g_plane = ::ega::read_pixel_plane(s,d,stride);
+
+  ::ega::pixel_plane const g_plane{::ega::read_pixel_plane(s,d,stride)};
   s.seekg(stream_start+2,std::ios_base::beg);
-  auto r_plane = ::ega::read_pixel_plane(s,d,stride);
+
+  ::ega::pixel_plane const r_plane{::ega::read_pixel_plane(s,d,stride)};
   s.seekg(stream_start+3,std::ios_base::beg);
-  auto i_plane = ::ega::read_pixel_plane(s,d,stride);
+
+  ::ega::pixel_plane const i_plane{::ega::read_pixel_plane(s,d,stride)};
   return
     fcppt::container::grid::apply(
       ::ega::bgri_indices_to_pixel,
