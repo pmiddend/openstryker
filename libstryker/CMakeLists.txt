@@ -96,6 +96,7 @@ function(
 	target_link_libraries(
 		${LIBSTRYKER_LIB_NAME}
 		PRIVATE
+		${fcppt_core_TARGET}
 		${Boost_FILESYSTEM_LIBRARIES}
 	)
 
