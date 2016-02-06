@@ -9,14 +9,15 @@ namespace libstryker
 namespace ega
 {
 
-template<typename U,typename T,typename Function>
-libstryker::ega::rgb_pixel<U>
+template<typename T,typename Function>
+auto
 rgb_pixel_map(
   libstryker::ega::rgb_pixel<T> const &p,
   Function const &function)
+-> libstryker::ega::rgb_pixel<decltype(function(p.r()))>
 {
   return
-    libstryker::ega::rgb_pixel<U>{
+    libstryker::ega::rgb_pixel<decltype(function(p.r()))>{
       function(p.r()),
       function(p.g()),
       function(p.b())};

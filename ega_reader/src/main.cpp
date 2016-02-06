@@ -116,7 +116,7 @@ write_ppm(
 	    [](libstryker::ega::rgb_pixel<unsigned char> const &p,std::string const &s)
 	    {
               auto const mapped(
-                libstryker::ega::rgb_pixel_map<std::string>(
+                libstryker::ega::rgb_pixel_map(
                   p,
                   [](unsigned char const e)
                   {

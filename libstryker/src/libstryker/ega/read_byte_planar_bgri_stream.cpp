@@ -35,7 +35,7 @@ operator*(
   rgb_pixel<T> const &p)
 {
   return
-    libstryker::ega::rgb_pixel_map<T>(p,[m](T const t) { return static_cast<T>(m * t); });
+    libstryker::ega::rgb_pixel_map(p,[m](T const t) { return static_cast<T>(m * t); });
 }
 
 }
@@ -83,7 +83,7 @@ template<typename U,typename T>
 libstryker::ega::rgb_pixel<U>
 rgb_pixel_static_cast(libstryker::ega::rgb_pixel<T> const &p)
 {
-  return libstryker::ega::rgb_pixel_map<U>(p,[](T const t) { return static_cast<U>(t); });
+  return libstryker::ega::rgb_pixel_map(p,[](T const t) { return static_cast<U>(t); });
 }
 
 // Shoutout to http://www.shikadi.net/moddingwiki/EGA_Palette
@@ -101,7 +101,7 @@ bgri_indices_to_pixel(
     :
       rgb_pixel_static_cast<unsigned char>(
 	((i ? 1 : 0) * libstryker::ega::rgb_pixel<int>{0x54,0x54,0x54}) +
-	libstryker::ega::rgb_pixel_map<int>(
+	libstryker::ega::rgb_pixel_map(
 	  libstryker::ega::rgb_pixel<bool>{r,g,b},
 	  [](bool const p) { return p ? 0xa8 : 0; }));
 }
