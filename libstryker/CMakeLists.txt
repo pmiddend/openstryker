@@ -17,8 +17,13 @@ set(
 	libstryker/include/libstryker/cmp/file_table_entry.hpp
 	libstryker/include/libstryker/cmp/read_cmp_entry.hpp
 	libstryker/include/libstryker/cmp/read_file_table.hpp
+	libstryker/include/libstryker/ega/read_byte_planar_bgri_stream.hpp
+	libstryker/include/libstryker/ega/rgb_pixel.hpp
+	libstryker/include/libstryker/ega/rgb_pixel_grid.hpp
+	libstryker/include/libstryker/ega/rgb_pixel_map.hpp
 	libstryker/src/libstryker/cmp/read_cmp_entry.cpp
 	libstryker/src/libstryker/cmp/read_file_table.cpp
+	libstryker/src/libstryker/ega/read_byte_planar_bgri_stream.cpp
 )
 
 set(
