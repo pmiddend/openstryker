@@ -4,8 +4,8 @@
 #include <fcppt/algorithm/cat_optionals.hpp>
 #include <fcppt/algorithm/generate_n.hpp>
 #include <fcppt/container/raw_vector.hpp>
-#include <fcppt/endianness/convert.hpp>
 #include <fcppt/endianness/format.hpp>
+#include <fcppt/io/read_exn.hpp>
 #include <fcppt/optional/filter.hpp>
 #include <fcppt/optional/map.hpp>
 #include <fcppt/optional/object.hpp>
@@ -13,9 +13,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <istream>
-#include <stdexcept>
 #include <string>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
@@ -29,13 +27,7 @@ namespace cmp
 std::uint32_t
 read_uint32le_from_istream(std::istream &s)
 {
-  std::size_t const num_bytes{4};
-  char bytes[num_bytes];
-  if(!(s.read(&bytes[0],num_bytes)))
-    throw std::runtime_error("error reading uint32_t from istream");
-  std::uint32_t result;
-  std::memcpy(&result,bytes,num_bytes);
-  return fcppt::endianness::convert(result,fcppt::endianness::format::little);
+  return fcppt::io::read_exn<std::uint32_t>(s,fcppt::endianness::format::little);
 }
 
 
