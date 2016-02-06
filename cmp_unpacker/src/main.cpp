@@ -1,9 +1,9 @@
 #include <libstryker/cmp/file_table.hpp>
 #include <libstryker/cmp/read_cmp_entry.hpp>
 #include <libstryker/cmp/read_file_table.hpp>
+#include <fcppt/algorithm/loop.hpp>
 #include <fcppt/container/raw_vector.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <algorithm>
 #include <iostream>
 #include <ostream>
 #include <string>
@@ -22,7 +22,10 @@ write_vector_to_filesystem(
   boost::filesystem::path const &base_path)
 {
   std::cout << "Writing " << base_path << "\n";
-  boost::filesystem::ofstream{base_path}.write(v.data(), static_cast<std::streamsize>(v.size()));
+  boost::filesystem::ofstream stream{base_path};
+  stream.write(v.data(), static_cast<std::streamsize>(v.size()));
+  if(!stream)
+    std::cerr << "Failed writing " << base_path << '\n';
 }
 }
 }
@@ -52,9 +55,8 @@ main(
   libstryker::cmp::file_table const files{libstryker::cmp::read_file_table(file_stream)};
   std::cout << "found " << files.size() << " file(s)\n";
   boost::filesystem::path base_path{"data/"};
-  std::for_each(
-    files.begin(),
-    files.end(),
+  fcppt::algorithm::loop(
+    files,
     [&base_path,&file_stream](libstryker::cmp::file_table::value_type const &fte)
     {
       std::cout << "Writing " << fte.name() << " to data/\n";
