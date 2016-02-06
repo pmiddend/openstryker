@@ -8,6 +8,8 @@ add_subdirectory(
 	libstryker
 )
 
+fcppt_utils_link_target(libstryker)
+
 add_subdirectory(
 	cmp_unpacker
 )

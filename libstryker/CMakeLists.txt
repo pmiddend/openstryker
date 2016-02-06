@@ -2,9 +2,22 @@ fcppt_utils_link_target(
 	libstryker
 )
 
+find_package(
+	Boost REQUIRED
+	COMPONENTS filesystem
+)
+
+find_package(
+        fcppt REQUIRED
+)
+
 set(
 	LIBSTRYKER_FILES
+	libstryker/include/libstryker/cmp/file_table.hpp
 	libstryker/include/libstryker/cmp/file_table_entry.hpp
+	libstryker/include/libstryker/cmp/read_cmp_entry.hpp
+	libstryker/include/libstryker/cmp/read_file_table.hpp
+	libstryker/src/libstryker/cmp/read_cmp_entry.cpp
 	libstryker/src/libstryker/cmp/read_file_table.cpp
 )
 
@@ -62,8 +75,9 @@ function(
 	target_include_directories(
 		${LIBSTRYKER_LIB_NAME}
 		PRIVATE
+		${FCPPT_UTILS_PROJECT_BINARY_DIR}/include
+		PUBLIC
 		${CMAKE_CURRENT_SOURCE_DIR}/include
-		INTERFACE
 		${Boost_INCLUDE_DIRS}
 		${fcppt_INCLUDE_DIRS}
 	)
@@ -79,10 +93,11 @@ function(
 		"${LIBSTRYKER_STATIC_LINK_FLAG}"
 	)
 
-	#	target_link_libraries(
-	#	${LIBSTRYKER_LIB_NAME}
-	#	PRIVATE
-	#)
+	target_link_libraries(
+		${LIBSTRYKER_LIB_NAME}
+		PRIVATE
+		${Boost_FILESYSTEM_LIBRARIES}
+	)
 
 	fcppt_utils_export_install_target(
 		${LIBSTRYKER_LIB_NAME}
