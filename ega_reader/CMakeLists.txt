@@ -17,7 +17,4 @@ fcppt_utils_set_target_compiler_flags(ega_reader)
 target_link_libraries(
         ega_reader
 	${libstryker_TARGET}
-        ${fcppt_core_TARGET}
-        ${fcppt_filesystem_TARGET}
-        ${fcppt_log_TARGET}
 )

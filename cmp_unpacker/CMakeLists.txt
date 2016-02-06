@@ -6,6 +6,11 @@ find_package(
         REQUIRED
 )
 
+find_package(
+	Boost REQUIRED
+	COMPONENTS filesystem
+)
+
 add_executable(
         cmp_unpacker
         src/main.cpp
@@ -17,7 +22,5 @@ fcppt_utils_set_target_compiler_flags(cmp_unpacker)
 target_link_libraries(
         cmp_unpacker
 	${libstryker_TARGET}
-        ${fcppt_core_TARGET}
-        ${fcppt_filesystem_TARGET}
-        ${fcppt_log_TARGET}
+	${Boost_FILESYSTEM_LIBRARIES}
 )
