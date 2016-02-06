@@ -2,6 +2,7 @@
 #include <libstryker/cmp/read_cmp_entry.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <istream>
+#include <stdexcept>
 #include <fcppt/config/external_end.hpp>
 
 
@@ -12,6 +13,7 @@ libstryker::cmp::read_cmp_entry(
 {
   fcppt::container::raw_vector<char> result(entry.size());
   file_stream.seekg(entry.offset(), std::ios_base::beg);
-  file_stream.read(result.data(),entry.size());
+  if(!file_stream.read(result.data(),entry.size()))
+    throw std::runtime_error("Failed to read a file table entry");
   return result;
 }
