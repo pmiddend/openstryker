@@ -2,7 +2,7 @@
 #include <libstryker/cmp/read_cmp_entry.hpp>
 #include <libstryker/cmp/read_file_table.hpp>
 #include <fcppt/algorithm/loop.hpp>
-#include <fcppt/container/raw_vector.hpp>
+#include <fcppt/io/buffer.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <iostream>
 #include <ostream>
@@ -18,7 +18,7 @@ namespace cmp
 
 void
 write_vector_to_filesystem(
-  fcppt::container::raw_vector<char> const &v,
+  fcppt::io::buffer const &v,
   boost::filesystem::path const &base_path)
 {
   std::cout << "Writing " << base_path << "\n";
