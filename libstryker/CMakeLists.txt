@@ -11,6 +11,14 @@ find_package(
         fcppt REQUIRED
 )
 
+find_package(
+	majutsu REQUIRED
+)
+
+find_package(
+	alda REQUIRED
+)
+
 set(
 	LIBSTRYKER_FILES
 	libstryker/include/libstryker/cmp/file_table.hpp
@@ -21,9 +29,12 @@ set(
 	libstryker/include/libstryker/ega/rgb_pixel.hpp
 	libstryker/include/libstryker/ega/rgb_pixel_grid.hpp
 	libstryker/include/libstryker/ega/rgb_pixel_map.hpp
+	libstryker/include/libstryker/level/read.hpp
+	libstryker/include/libstryker/level/record.hpp
 	libstryker/src/libstryker/cmp/read_cmp_entry.cpp
 	libstryker/src/libstryker/cmp/read_file_table.cpp
 	libstryker/src/libstryker/ega/read_byte_planar_bgri_stream.cpp
+	libstryker/src/libstryker/level/read.cpp
 )
 
 set(
@@ -85,6 +96,8 @@ function(
 		${CMAKE_CURRENT_SOURCE_DIR}/include
 		${Boost_INCLUDE_DIRS}
 		${fcppt_INCLUDE_DIRS}
+		${alda_INCLUDE_DIRS}
+		${majutsu_INCLUDE_DIRS}
 	)
 
 	fcppt_utils_add_target_include_dir(
