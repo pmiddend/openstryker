@@ -21,3 +21,7 @@ add_subdirectory(
 add_subdirectory(
 	level_reader
 )
+
+add_subdirectory(
+	level_viewer
+)
