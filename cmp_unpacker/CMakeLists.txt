@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.3)
-project(cmp_unpacker)
-
 find_package(
         fcppt
         REQUIRED
