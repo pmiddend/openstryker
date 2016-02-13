@@ -1,6 +1,7 @@
 #ifndef LIBSTRYKER_LEVEL_RECORD_HPP_INCLUDED
 #define LIBSTRYKER_LEVEL_RECORD_HPP_INCLUDED
 
+#include <libstryker/level/string_decl.hpp>
 #include <alda/bindings/array_decl.hpp>
 #include <alda/bindings/dynamic_len_decl.hpp>
 #include <alda/bindings/fundamental_decl.hpp>
@@ -26,24 +27,14 @@ namespace level
 
 typedef
 std::array<
-  char,
-  12
->
-string;
-
-typedef
-std::array<
   std::uint16_t,
   16767
 >
 tile_array;
 
 typedef
-alda::bindings::array<
-  string,
-  alda::bindings::fundamental<
-    char
-  >
+libstryker::level::string<
+  12
 >
 string_binding;
 

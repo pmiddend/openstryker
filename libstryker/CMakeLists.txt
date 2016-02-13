@@ -31,6 +31,8 @@ set(
 	libstryker/include/libstryker/ega/rgb_pixel_map.hpp
 	libstryker/include/libstryker/level/read.hpp
 	libstryker/include/libstryker/level/record.hpp
+	libstryker/include/libstryker/level/string.hpp
+	libstryker/include/libstryker/level/string_decl.hpp
 	libstryker/src/libstryker/cmp/read_cmp_entry.cpp
 	libstryker/src/libstryker/cmp/read_file_table.cpp
 	libstryker/src/libstryker/ega/read_byte_planar_bgri_stream.cpp

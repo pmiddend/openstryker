@@ -1,5 +1,6 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
+#include <libstryker/level/string.hpp>
 #include <alda/bindings/array.hpp>
 #include <alda/bindings/dynamic_len.hpp>
 #include <alda/bindings/fundamental.hpp>
