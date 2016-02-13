@@ -5,9 +5,12 @@
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <array>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <ostream>
+#include <vector>
 #include <fcppt/config/external_end.hpp>
 
 namespace std
