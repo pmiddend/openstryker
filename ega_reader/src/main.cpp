@@ -14,6 +14,7 @@
 #include <fcppt/config/external_begin.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/path.hpp>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -151,8 +152,8 @@ void print_usage(std::string const &program_name)
 }
 
 int main(
-  int const argc,
-  char * const * const argv)
+  int argc,
+  char ** argv)
 {
   std::string const program_name{argv[0]};
   if(argc != 2)
@@ -168,4 +169,6 @@ int main(
   auto image = libstryker::ega::read_byte_planar_bgri_stream(fs);
 
   std::cout << ega::write_ppm(image);
+
+  return EXIT_SUCCESS;
 }

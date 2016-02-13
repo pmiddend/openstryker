@@ -4,6 +4,7 @@
 #include <fcppt/algorithm/loop.hpp>
 #include <fcppt/io/buffer.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <cstdlib>
 #include <iostream>
 #include <ostream>
 #include <string>
@@ -35,20 +36,20 @@ namespace
 void print_usage(
   std::string const &program_name)
 {
-  std::cerr << "usage: " << program_name << " <cmp-file>";
+  std::cerr << "usage: " << program_name << " <cmp-file>\n";
 }
 }
 
 int
 main(
-  int const argc,
-  char const * const * argv)
+  int argc,
+  char ** argv)
 {
   std::string const program_name(
     argv[0]);
   if(argc != 2) {
     print_usage(program_name);
-    return -1;
+    return EXIT_FAILURE;
   }
   std::string const file_name(argv[1]);
   boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name}};
@@ -64,4 +65,5 @@ main(
 	libstryker::cmp::read_cmp_entry(fte,file_stream),
 	base_path / fte.name());
   });
+  return EXIT_SUCCESS;
 }
