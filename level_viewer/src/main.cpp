@@ -23,6 +23,7 @@
 #include <sge/systems/with_window.hpp>
 #include <sge/viewport/fill_on_resize.hpp>
 #include <sge/viewport/optional_resize_callback.hpp>
+#include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
 #include <awl/show_error.hpp>
 #include <awl/show_error_narrow.hpp>
@@ -108,7 +109,14 @@ try
     )
   );
 
-  return awl::main::exit_success();
+  // TODO
+  sys.window_system().quit(awl::main::exit_success());
+
+  while(
+   sys.window_system().poll()
+  ) ;
+
+  return sys.window_system().exit_code();
 }
 catch(fcppt::exception const &_error)
 {
