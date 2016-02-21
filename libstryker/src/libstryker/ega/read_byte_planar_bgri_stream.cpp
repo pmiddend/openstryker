@@ -5,6 +5,8 @@
 #include <fcppt/no_init.hpp>
 #include <fcppt/container/grid/apply.hpp>
 #include <fcppt/container/grid/object.hpp>
+#include <fcppt/io/get.hpp>
+#include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <istream>
 #include <iterator>
@@ -62,9 +64,15 @@ read_pixel_plane(
     pixel_plane::iterator current_pixel = result.begin();
     current_pixel != result.end();)
   {
-    int const c{s.get()};
-    if(c == std::istream::traits_type::eof())
-      throw std::runtime_error("premature end of file after "+std::to_string(std::distance(result.begin(),current_pixel))+"th pixel");
+    char const c{
+      fcppt::optional::to_exception(
+        fcppt::io::get(s),
+	[&result,current_pixel]{
+	  return
+            std::runtime_error{"premature end of file after "
+              + std::to_string(std::distance(result.begin(),current_pixel))
+              +"th pixel"};
+    })};
     *current_pixel++ = c & 128;
     *current_pixel++ = c & 64;
     *current_pixel++ = c & 32;
