@@ -12,6 +12,7 @@ include(FcpptCMakeUtils)
 fcppt_utils_set_target_compiler_flags(ega_reader)
 
 target_link_libraries(
-        ega_reader
-	${libstryker_TARGET}
+  ega_reader
+  ${libstryker_TARGET}
+  ${fcppt_core_TARGET}
 )
