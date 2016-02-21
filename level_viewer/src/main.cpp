@@ -30,8 +30,11 @@
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/exit_success.hpp>
 #include <awl/main/function_context.hpp>
+#include <fcppt/args.hpp>
+#include <fcppt/args_vector.hpp>
 #include <fcppt/exception.hpp>
 #include <fcppt/text.hpp>
+#include <fcppt/container/at_optional.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -50,13 +53,15 @@ awl::main::exit_code const
 level_viewer_main(awl::main::function_context const &_args)
 try
 {
-  if(_args.argc() != 2)
-  {
-    awl::show_error_narrow(std::string("Usage: ") + _args.argv()[0] + " <level-file>");
-    return awl::main::exit_failure();
-  }
+  fcppt::args_vector const args(fcppt::args(_args.argc(),_args.argv()));
+  std::string const file_name(
+    fcppt::optional::to_exception(
+      fcppt::container::at_optional(args,1u),
+      []{
+        return std::runtime_error("Usage: level_viewer <level-file>");
+      }).get());
 
-   boost::filesystem::ifstream stream(boost::filesystem::path{_args.argv()[1]});
+  boost::filesystem::ifstream stream(boost::filesystem::path{file_name});
 
   libstryker::level::record const level{
     fcppt::optional::to_exception(
