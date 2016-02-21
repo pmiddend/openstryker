@@ -9,6 +9,7 @@
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <exception>
 #include <cstdlib>
 #include <iostream>
 #include <ostream>
@@ -46,6 +47,7 @@ void print_usage()
 
 int
 main(int argc, char ** argv)
+try
 {
   fcppt::args_vector const args(fcppt::args(argc,argv));
   return
@@ -72,4 +74,9 @@ main(int argc, char ** argv)
         });
         return EXIT_SUCCESS;
       });
+}
+catch(std::exception const &error)
+{
+  std::cerr << error.what() << '\n';
+  return EXIT_FAILURE;
 }

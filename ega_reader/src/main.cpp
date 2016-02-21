@@ -20,6 +20,7 @@
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/path.hpp>
 #include <cstdlib>
+#include <exception>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -156,9 +157,8 @@ void print_usage()
 }
 }
 
-int main(
-  int argc,
-  char ** argv)
+int main(int argc, char ** argv)
+try
 {
   fcppt::args_vector const args(fcppt::args(argc,argv));
   return
@@ -180,4 +180,9 @@ int main(
 
         return EXIT_SUCCESS;
       });
+}
+catch(std::exception const &error)
+{
+  std::cerr << error.what() << '\n';
+  return EXIT_FAILURE;
 }

@@ -11,6 +11,7 @@
 #include <fcppt/config/external_begin.hpp>
 #include <array>
 #include <cstdlib>
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -39,6 +40,7 @@ std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array)
 }
 
 int main(int argc, char **argv)
+try
 {
   fcppt::args_vector const args(fcppt::args(argc,argv));
   return
@@ -66,4 +68,9 @@ int main(int argc, char **argv)
             }
           );
       });
+}
+catch(std::exception const &error)
+{
+  std::cerr << error.what() << '\n';
+  return EXIT_FAILURE;
 }
