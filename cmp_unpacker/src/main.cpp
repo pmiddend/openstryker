@@ -1,8 +1,13 @@
 #include <libstryker/cmp/file_table.hpp>
 #include <libstryker/cmp/read_cmp_entry.hpp>
 #include <libstryker/cmp/read_file_table.hpp>
+#include <fcppt/args.hpp>
+#include <fcppt/args_vector.hpp>
+#include <fcppt/reference.hpp>
 #include <fcppt/algorithm/loop.hpp>
 #include <fcppt/io/buffer.hpp>
+#include <fcppt/container/at_optional.hpp>
+#include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -33,37 +38,38 @@ write_vector_to_filesystem(
 
 namespace
 {
-void print_usage(
-  std::string const &program_name)
+void print_usage()
 {
-  std::cerr << "usage: " << program_name << " <cmp-file>\n";
+  std::cerr << "usage: cmd_unpacker <cmp-file>\n";
 }
 }
 
 int
-main(
-  int argc,
-  char ** argv)
+main(int argc, char ** argv)
 {
-  std::string const program_name(
-    argv[0]);
-  if(argc != 2) {
-    print_usage(program_name);
-    return EXIT_FAILURE;
-  }
-  std::string const file_name(argv[1]);
-  boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name}};
-  libstryker::cmp::file_table const files{libstryker::cmp::read_file_table(file_stream)};
-  std::cout << "found " << files.size() << " file(s)\n";
-  boost::filesystem::path base_path{"data/"};
-  fcppt::algorithm::loop(
-    files,
-    [&base_path,&file_stream](libstryker::cmp::file_table::value_type const &fte)
-    {
-      std::cout << "Writing " << fte.name() << " to data/\n";
-      cmp::write_vector_to_filesystem(
-	libstryker::cmp::read_cmp_entry(fte,file_stream),
-	base_path / fte.name());
-  });
-  return EXIT_SUCCESS;
+  fcppt::args_vector const args(fcppt::args(argc,argv));
+  return
+    fcppt::optional::maybe(
+      fcppt::container::at_optional(args,1u),
+      []{
+        print_usage();
+        return EXIT_FAILURE;
+      },
+      [](fcppt::reference<std::string const> file_name)
+      {
+        boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name.get()}};
+        libstryker::cmp::file_table const files{libstryker::cmp::read_file_table(file_stream)};
+        std::cout << "found " << files.size() << " file(s)\n";
+        boost::filesystem::path base_path{"data/"};
+        fcppt::algorithm::loop(
+          files,
+          [&base_path,&file_stream](libstryker::cmp::file_table::value_type const &fte)
+          {
+            std::cout << "Writing " << fte.name() << " to data/\n";
+            cmp::write_vector_to_filesystem(
+              libstryker::cmp::read_cmp_entry(fte,file_stream),
+              base_path / fte.name());
+        });
+        return EXIT_SUCCESS;
+      });
 }
