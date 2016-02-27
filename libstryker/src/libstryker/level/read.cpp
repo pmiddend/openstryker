@@ -8,14 +8,17 @@
 #include <alda/bindings/static.hpp>
 #include <alda/raw/make_generic.hpp>
 #include <alda/raw/record_binding.hpp>
+#include <alda/raw/stream/error.hpp>
 #include <alda/raw/stream/istream.hpp>
-#include <fcppt/optional/object_impl.hpp>
+#include <fcppt/either/object_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <iosfwd>
 #include <fcppt/config/external_end.hpp>
 
 
-fcppt::optional::object<libstryker::level::record>
+fcppt::either::object<
+  alda::raw::stream::error,
+  libstryker::level::record>
 libstryker::level::read(
   std::istream &stream)
 {

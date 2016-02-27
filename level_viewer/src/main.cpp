@@ -25,6 +25,7 @@
 #include <sge/viewport/optional_resize_callback.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
+#include <alda/raw/stream/error.hpp>
 #include <awl/show_error.hpp>
 #include <awl/show_error_narrow.hpp>
 #include <awl/main/exit_code.hpp>
@@ -35,7 +36,9 @@
 #include <fcppt/args_vector.hpp>
 #include <fcppt/exception.hpp>
 #include <fcppt/text.hpp>
+#include <fcppt/to_std_string.hpp>
 #include <fcppt/container/at_optional.hpp>
+#include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/filesystem/fstream.hpp>
@@ -47,10 +50,10 @@
 #include <fcppt/config/external_end.hpp>
 
 
-awl::main::exit_code const
+awl::main::exit_code
 level_viewer_main(awl::main::function_context const &);
 
-awl::main::exit_code const
+awl::main::exit_code
 level_viewer_main(awl::main::function_context const &_args)
 try
 {
@@ -65,10 +68,10 @@ try
   boost::filesystem::ifstream stream(boost::filesystem::path{file_name});
 
   libstryker::level::record const level{
-    fcppt::optional::to_exception(
+    fcppt::either::to_exception(
       libstryker::level::read(stream),
-      []{
-        return std::runtime_error{"Failed to read level!"};
+      [](alda::raw::stream::error const &_error){
+        return std::runtime_error{"Failed to read level! " + fcppt::to_std_string(_error.get())};
       })};
 
   sge::systems::instance<

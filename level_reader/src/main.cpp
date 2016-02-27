@@ -1,12 +1,15 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
 #include <alda/raw/record_output.hpp>
+#include <alda/raw/stream/error.hpp>
 #include <majutsu/record_output.hpp>
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>
 #include <fcppt/reference.hpp>
+#include <fcppt/to_std_string.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/container/at_optional.hpp>
+#include <fcppt/either/match.hpp>
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <array>
@@ -54,15 +57,15 @@ try
       {
         std::ifstream file_stream{file_name.get()};
         return
-          fcppt::optional::maybe(
+          fcppt::either::match(
             libstryker::level::read(file_stream),
-            []{
-              std::cerr << "Reading failed\n";
+            [](alda::raw::stream::error const &_error)
+            {
+              std::cerr << "Reading failed: " << fcppt::to_std_string(_error.get()) << '\n';
               return EXIT_FAILURE;
             },
-            [](
-              libstryker::level::record const &_level
-            ){
+            [](libstryker::level::record const &_level)
+            {
               std::cout << _level << '\n';
               return EXIT_SUCCESS;
             }
