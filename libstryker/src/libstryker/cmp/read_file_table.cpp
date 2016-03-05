@@ -1,11 +1,11 @@
 #include <libstryker/cmp/file_table.hpp>
 #include <libstryker/cmp/file_table_entry.hpp>
 #include <libstryker/cmp/read_file_table.hpp>
-#include <fcppt/algorithm/cat_optionals.hpp>
 #include <fcppt/algorithm/generate_n.hpp>
 #include <fcppt/container/raw_vector.hpp>
 #include <fcppt/endianness/format.hpp>
 #include <fcppt/io/read_exn.hpp>
+#include <fcppt/optional/cat.hpp>
 #include <fcppt/optional/filter.hpp>
 #include <fcppt/optional/map.hpp>
 #include <fcppt/optional/object.hpp>
@@ -75,7 +75,7 @@ libstryker::cmp::read_file_table(
   file_stream.seekg(0, std::ios_base::beg);
 
   return
-    fcppt::algorithm::cat_optionals<libstryker::cmp::file_table>(
+    fcppt::optional::cat<libstryker::cmp::file_table>(
       fcppt::algorithm::generate_n<optional_file_table>(
 	200u,
 	[&file_stream]() {
