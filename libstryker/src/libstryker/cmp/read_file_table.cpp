@@ -4,10 +4,11 @@
 #include <fcppt/algorithm/generate_n.hpp>
 #include <fcppt/container/raw_vector.hpp>
 #include <fcppt/endianness/format.hpp>
-#include <fcppt/io/read_exn.hpp>
+#include <fcppt/io/read.hpp>
+#include <fcppt/optional/apply.hpp>
+#include <fcppt/optional/bind.hpp>
 #include <fcppt/optional/cat.hpp>
 #include <fcppt/optional/filter.hpp>
-#include <fcppt/optional/map.hpp>
 #include <fcppt/optional/object.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <algorithm>
@@ -24,16 +25,17 @@ namespace
 namespace cmp
 {
 
-std::uint32_t
+fcppt::optional::object<std::uint32_t>
 read_uint32le_from_istream(std::istream &s)
 {
-  return fcppt::io::read_exn<std::uint32_t>(s,fcppt::endianness::format::little);
+  return fcppt::io::read<std::uint32_t>(s,fcppt::endianness::format::little);
 }
 
 
 fcppt::optional::object<std::string>
 read_string_from_istream(std::istream &s,std::streamsize const n)
 {
+  // TODO: Use the alda binding here
   typedef fcppt::container::raw_vector<char> char_vector;
   char_vector chars(static_cast<char_vector::size_type>(n));
   if(!(s.read(chars.data(),n)))
@@ -46,16 +48,23 @@ read_single_file_table_entry(
   std::istream &s)
 {
   return
-    fcppt::optional::map(
+    fcppt::optional::bind(
       fcppt::optional::filter(
-	cmp::read_string_from_istream(s,12),
-	[](std::string const &file_name) { return !file_name.empty(); }),
+        cmp::read_string_from_istream(s,12),
+        [](std::string const &file_name) { return !file_name.empty(); }),
       [&s](std::string const &file_name)
       {
-	return libstryker::cmp::file_table_entry{
-		file_name,
-		cmp::read_uint32le_from_istream(s),
-		cmp::read_uint32le_from_istream(s)};
+        fcppt::optional::object<std::uint32_t> const offset{
+          cmp::read_uint32le_from_istream(s)};
+        fcppt::optional::object<std::uint32_t> const size{
+          cmp::read_uint32le_from_istream(s)};
+        return fcppt::optional::apply(
+          [&file_name](std::uint32_t const _offset, std::uint32_t const _size){
+            return
+              libstryker::cmp::file_table_entry{
+                file_name, _offset, _size};
+          },
+          offset, size);
       });
 }
 
@@ -77,8 +86,8 @@ libstryker::cmp::read_file_table(
   return
     fcppt::optional::cat<libstryker::cmp::file_table>(
       fcppt::algorithm::generate_n<optional_file_table>(
-	200u,
-	[&file_stream]() {
-	  return ::cmp::read_single_file_table_entry(file_stream);
-	}));
+        200u,
+       [&file_stream]() {
+          return ::cmp::read_single_file_table_entry(file_stream);
+       }));
 }
