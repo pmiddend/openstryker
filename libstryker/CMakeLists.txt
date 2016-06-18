@@ -92,19 +92,10 @@ function(
 
 	target_include_directories(
 		${LIBSTRYKER_LIB_NAME}
-		PRIVATE
-		${FCPPT_UTILS_PROJECT_BINARY_DIR}/include
 		PUBLIC
+		${FCPPT_UTILS_PROJECT_BINARY_DIR}/include
 		${CMAKE_CURRENT_SOURCE_DIR}/include
 		${Boost_INCLUDE_DIRS}
-		${fcppt_INCLUDE_DIRS}
-		${alda_INCLUDE_DIRS}
-		${majutsu_INCLUDE_DIRS}
-	)
-
-	fcppt_utils_add_target_include_dir(
-		${LIBSTRYKER_LIB_NAME}
-		TRUE
 	)
 
 	fcppt_utils_interface_static_link(
@@ -115,6 +106,10 @@ function(
 
 	target_link_libraries(
 		${LIBSTRYKER_LIB_NAME}
+		PUBLIC
+		majutsu_interface
+		alda_interface
+		fcppt_core_interface
 		PRIVATE
 		${fcppt_core_TARGET}
 		${Boost_FILESYSTEM_LIBRARIES}
