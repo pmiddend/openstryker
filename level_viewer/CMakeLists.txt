@@ -1,5 +1,6 @@
 find_package(fcppt REQUIRED)
 find_package(awl REQUIRED)
+find_package(mizuiro REQUIRED)
 find_package(
   sge REQUIRED
   COMPONENTS renderer systems viewport window)
