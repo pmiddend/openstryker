@@ -2,7 +2,6 @@
 #include <libstryker/level/record.hpp>
 #include <alda/raw/record_output.hpp>
 #include <alda/raw/stream/error.hpp>
-#include <majutsu/record_output.hpp>
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>
 #include <fcppt/reference.hpp>
@@ -11,6 +10,7 @@
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/either/match.hpp>
 #include <fcppt/optional/maybe.hpp>
+#include <fcppt/record/output.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <array>
 #include <cstdlib>

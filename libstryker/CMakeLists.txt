@@ -12,10 +12,6 @@ find_package(
 )
 
 find_package(
-	majutsu REQUIRED
-)
-
-find_package(
 	alda REQUIRED
 )
 
@@ -107,7 +103,6 @@ function(
 	target_link_libraries(
 		${LIBSTRYKER_LIB_NAME}
 		PUBLIC
-		majutsu_interface
 		alda_interface
 		fcppt_core_interface
 		PRIVATE

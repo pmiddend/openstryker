@@ -9,8 +9,8 @@
 #include <alda/bindings/static_decl.hpp>
 #include <alda/raw/record_impl.hpp>
 #include <alda/raw/record_variadic_fwd.hpp>
-#include <majutsu/make_role_tag.hpp>
-#include <majutsu/role.hpp>
+#include <fcppt/record/element.hpp>
+#include <fcppt/record/make_label.hpp>
 #include <fcppt/endianness/format.hpp>
 #include <fcppt/math/vector/static.hpp>
 #include <fcppt/config/external_begin.hpp>
@@ -45,11 +45,11 @@ alda::bindings::unsigned_<
 >
 ui16le_binding;
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   actor_type_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   actor_pos_role
 );
 
@@ -69,13 +69,13 @@ actor_pos_binding;
 
 typedef
 alda::raw::record_variadic<
-  majutsu::role<
-    ui16le_binding,
-    actor_type_role
+  fcppt::record::element<
+    actor_type_role,
+    ui16le_binding
   >,
-  majutsu::role<
-    actor_pos_binding,
-    actor_pos_role
+  fcppt::record::element<
+    actor_pos_role,
+    actor_pos_binding
   >
 >
 actor_record;
@@ -133,103 +133,103 @@ alda::bindings::array<
 >
 tile_array_binding;
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   mask_tiles_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   solid_tiles_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   backdrop_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   unused1_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   unused2_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   music_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   unused3_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   flags_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   width_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   actor_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   unknown_role
 );
 
-MAJUTSU_MAKE_ROLE_TAG(
+FCPPT_RECORD_MAKE_LABEL(
   tile_role
 );
 
 typedef
 alda::raw::record_variadic<
-  majutsu::role<
-    string_binding,
-    mask_tiles_role
+  fcppt::record::element<
+    mask_tiles_role,
+    string_binding
   >,
-  majutsu::role<
-    string_binding,
-    solid_tiles_role
+  fcppt::record::element<
+    solid_tiles_role,
+    string_binding
   >,
-  majutsu::role<
-    string_binding,
-    backdrop_role
+  fcppt::record::element<
+    backdrop_role,
+    string_binding
   >,
-  majutsu::role<
-    string_binding,
-    unused1_role
+  fcppt::record::element<
+    unused1_role,
+    string_binding
   >,
-  majutsu::role<
-    string_binding,
-    unused2_role
+  fcppt::record::element<
+    unused2_role,
+    string_binding
   >,
-  majutsu::role<
-    string_binding,
-    music_role
+  fcppt::record::element<
+    music_role,
+    string_binding
   >,
-  majutsu::role<
-    string_binding,
-    unused3_role
+  fcppt::record::element<
+    unused3_role,
+    string_binding
   >,
-  majutsu::role<
-    ui16le_binding,
-    flags_role
+  fcppt::record::element<
+    flags_role,
+    ui16le_binding
   >,
-  majutsu::role<
-    ui16le_binding,
-    width_role
+  fcppt::record::element<
+    width_role,
+    ui16le_binding
   >,
-  majutsu::role<
-    actor_binding,
-    actor_role
+  fcppt::record::element<
+    actor_role,
+    actor_binding
   >,
-  majutsu::role<
-    unknown_binding,
-    unknown_role
+  fcppt::record::element<
+    unknown_role,
+    unknown_binding
   >,
-  majutsu::role<
-    tile_array_binding,
-    tile_role
+  fcppt::record::element<
+    tile_role,
+    tile_array_binding
   >
 >
 record;
