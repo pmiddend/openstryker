@@ -1,6 +1,5 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
-#include <alda/raw/record_output.hpp>
 #include <alda/raw/stream/error.hpp>
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>

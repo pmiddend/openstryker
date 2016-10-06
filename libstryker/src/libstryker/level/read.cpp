@@ -7,7 +7,6 @@
 #include <alda/bindings/unsigned.hpp>
 #include <alda/bindings/static.hpp>
 #include <alda/raw/make_generic.hpp>
-#include <alda/raw/record_binding.hpp>
 #include <alda/raw/stream/error.hpp>
 #include <alda/raw/stream/istream.hpp>
 #include <fcppt/either/object_impl.hpp>
@@ -25,7 +24,7 @@ libstryker::level::read(
   return
     alda::raw::make_generic<
       alda::raw::stream::istream,
-      libstryker::level::record
+      libstryker::level::record_binding
     >(
       stream);
 }

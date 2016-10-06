@@ -6,9 +6,9 @@
 #include <alda/bindings/dynamic_len_decl.hpp>
 #include <alda/bindings/fundamental_decl.hpp>
 #include <alda/bindings/unsigned_decl.hpp>
+#include <alda/bindings/record_variadic.hpp>
 #include <alda/bindings/static_decl.hpp>
-#include <alda/raw/record_impl.hpp>
-#include <alda/raw/record_variadic_fwd.hpp>
+#include <alda/raw/element_type.hpp>
 #include <fcppt/record/element.hpp>
 #include <fcppt/record/make_label.hpp>
 #include <fcppt/endianness/format.hpp>
@@ -68,7 +68,7 @@ alda::bindings::static_<
 actor_pos_binding;
 
 typedef
-alda::raw::record_variadic<
+alda::bindings::record_variadic<
   fcppt::record::element<
     actor_type_role,
     ui16le_binding
@@ -77,6 +77,12 @@ alda::raw::record_variadic<
     actor_pos_role,
     actor_pos_binding
   >
+>
+actor_record_binding;
+
+typedef
+alda::raw::element_type<
+  actor_record_binding
 >
 actor_record;
 
@@ -108,7 +114,7 @@ struct actor_size_policy
 typedef
 alda::bindings::dynamic_len<
   actor_vector,
-  actor_record,
+  actor_record_binding,
   ui16le_binding,
   actor_size_policy
 >
@@ -182,7 +188,7 @@ FCPPT_RECORD_MAKE_LABEL(
 );
 
 typedef
-alda::raw::record_variadic<
+alda::bindings::record_variadic<
   fcppt::record::element<
     mask_tiles_role,
     string_binding
@@ -231,6 +237,12 @@ alda::raw::record_variadic<
     tile_role,
     tile_array_binding
   >
+>
+record_binding;
+
+typedef
+alda::raw::element_type<
+  record_binding
 >
 record;
 
