@@ -6,6 +6,7 @@
 #include <fcppt/args_vector.hpp>
 #include <fcppt/make_int_range.hpp>
 #include <fcppt/reference.hpp>
+#include <fcppt/string.hpp>
 #include <fcppt/algorithm/map.hpp>
 #include <fcppt/container/grid/object.hpp>
 #include <fcppt/cast/promote.hpp>
@@ -168,7 +169,7 @@ try
         print_usage();
         return EXIT_FAILURE;
       },
-      [](fcppt::reference<std::string const> const file_name)
+      [](fcppt::reference<fcppt::string const> const file_name)
       {
         boost::filesystem::path const ega_file_name{file_name.get()};
 

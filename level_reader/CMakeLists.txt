@@ -1,11 +1,11 @@
+find_package(fcppt REQUIRED)
 find_package(
-        fcppt
-        REQUIRED
-)
+  Boost REQUIRED
+  COMPONENTS filesystem)
 
 add_executable(
-        level_reader
-        src/main.cpp
+  level_reader
+  src/main.cpp
 )
 
 include(FcpptCMakeUtils)
@@ -15,4 +15,5 @@ target_link_libraries(
   level_reader
   ${libstryker_TARGET}
   ${fcppt_core_TARGET}
+  ${Boost_FILESYSTEM_LIBRARIES}
 )

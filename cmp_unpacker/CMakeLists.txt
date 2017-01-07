@@ -1,16 +1,11 @@
+find_package(fcppt REQUIRED)
 find_package(
-        fcppt
-        REQUIRED
-)
-
-find_package(
-	Boost REQUIRED
-	COMPONENTS filesystem
-)
+  Boost REQUIRED
+  COMPONENTS filesystem)
 
 add_executable(
-        cmp_unpacker
-        src/main.cpp
+  cmp_unpacker
+  src/main.cpp
 )
 
 include(FcpptCMakeUtils)

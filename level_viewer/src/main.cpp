@@ -35,6 +35,7 @@
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>
 #include <fcppt/exception.hpp>
+#include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/to_std_string.hpp>
 #include <fcppt/container/at_optional.hpp>
@@ -46,7 +47,6 @@
 #include <boost/mpl/vector/vector10.hpp>
 #include <exception>
 #include <stdexcept>
-#include <string>
 #include <fcppt/config/external_end.hpp>
 
 
@@ -58,7 +58,7 @@ level_viewer_main(awl::main::function_context const &_args)
 try
 {
   fcppt::args_vector const args(fcppt::args(_args.argc(),_args.argv()));
-  std::string const file_name(
+  fcppt::string const file_name(
     fcppt::optional::to_exception(
       fcppt::container::at_optional(args,1u),
       []{

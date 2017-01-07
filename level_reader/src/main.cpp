@@ -4,6 +4,7 @@
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>
 #include <fcppt/reference.hpp>
+#include <fcppt/string.hpp>
 #include <fcppt/to_std_string.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/container/at_optional.hpp>
@@ -11,12 +12,12 @@
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/record/output.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/filesystem/path.hpp>
 #include <array>
 #include <cstdlib>
 #include <exception>
-#include <fstream>
 #include <iostream>
-#include <string>
 #include <ostream>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
@@ -52,9 +53,10 @@ try
         std::cerr << "usage: level_reader <level-file>\n";
         return EXIT_FAILURE;
       },
-      [](fcppt::reference<std::string const> file_name)
+      [](fcppt::reference<fcppt::string const> file_name)
       {
-        std::ifstream file_stream{file_name.get()};
+        boost::filesystem::path const file_path{file_name.get()};
+        boost::filesystem::ifstream file_stream{file_path};
         return
           fcppt::either::match(
             libstryker::level::read(file_stream),

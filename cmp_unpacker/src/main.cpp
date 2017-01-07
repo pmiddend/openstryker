@@ -4,6 +4,7 @@
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>
 #include <fcppt/reference.hpp>
+#include <fcppt/string.hpp>
 #include <fcppt/algorithm/loop.hpp>
 #include <fcppt/io/buffer.hpp>
 #include <fcppt/container/at_optional.hpp>
@@ -13,7 +14,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <ostream>
-#include <string>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <fcppt/config/external_end.hpp>
@@ -57,7 +57,7 @@ try
         print_usage();
         return EXIT_FAILURE;
       },
-      [](fcppt::reference<std::string const> file_name)
+      [](fcppt::reference<fcppt::string const> file_name)
       {
         boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name.get()}};
         libstryker::cmp::file_table const files{libstryker::cmp::read_file_table(file_stream)};
