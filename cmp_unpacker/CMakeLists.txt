@@ -13,6 +13,7 @@ fcppt_utils_set_target_compiler_flags(cmp_unpacker)
 
 target_link_libraries(
   cmp_unpacker
+  PRIVATE
   ${libstryker_TARGET}
   ${fcppt_core_TARGET}
   ${Boost_FILESYSTEM_LIBRARIES}

@@ -13,6 +13,7 @@ fcppt_utils_set_target_compiler_flags(level_reader)
 
 target_link_libraries(
   level_reader
+  PRIVATE
   ${libstryker_TARGET}
   ${fcppt_core_TARGET}
   ${Boost_FILESYSTEM_LIBRARIES}
