@@ -2,7 +2,6 @@
 #include <libstryker/ega/rgb_pixel.hpp>
 #include <libstryker/ega/rgb_pixel_grid.hpp>
 #include <libstryker/ega/rgb_pixel_map.hpp>
-#include <fcppt/no_init.hpp>
 #include <fcppt/container/grid/apply.hpp>
 #include <fcppt/container/grid/object.hpp>
 #include <fcppt/io/get.hpp>
@@ -59,7 +58,8 @@ read_pixel_plane(
 {
   if(dims.w() % 8u != 0)
     throw std::runtime_error(std::to_string(dims.w())+" is not a multiple of 8");
-  pixel_plane result(dims,fcppt::no_init{});
+  // TODO: Express this using an init function
+  pixel_plane result(dims,false);
   for(
     pixel_plane::iterator current_pixel = result.begin();
     current_pixel != result.end();)
