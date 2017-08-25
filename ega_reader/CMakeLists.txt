@@ -1,7 +1,9 @@
 find_package(fcppt REQUIRED)
 find_package(
   Boost REQUIRED
-  COMPONENTS filesystem)
+  COMPONENTS
+  filesystem
+  system)
 
 add_executable(
   ega_reader
@@ -17,4 +19,5 @@ target_link_libraries(
   ${libstryker_TARGET}
   ${fcppt_core_TARGET}
   ${Boost_FILESYSTEM_LIBRARIES}
+  ${Boost_SYSTEM_LIBRARIES}
 )

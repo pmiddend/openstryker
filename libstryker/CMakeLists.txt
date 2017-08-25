@@ -4,7 +4,9 @@ fcppt_utils_link_target(
 
 find_package(
 	Boost REQUIRED
-	COMPONENTS filesystem
+	COMPONENTS
+	filesystem
+	system
 )
 
 find_package(
@@ -108,6 +110,7 @@ function(
 		PRIVATE
 		${fcppt_core_TARGET}
 		${Boost_FILESYSTEM_LIBRARIES}
+		${Boost_SYSTEM_LIBRARIES}
 	)
 
 	fcppt_utils_export_install_target(

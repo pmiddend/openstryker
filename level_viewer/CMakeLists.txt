@@ -6,7 +6,9 @@ find_package(
   COMPONENTS renderer systems viewport window)
 find_package(
   Boost REQUIRED
-  COMPONENTS filesystem)
+  COMPONENTS
+  filesystem
+  system)
 
 include(AwlMainGenerator)
 
@@ -29,4 +31,5 @@ target_link_libraries(
   ${awl_TARGET}
   ${fcppt_core_TARGET}
   ${Boost_FILESYSTEM_LIBRARIES}
+  ${Boost_SYSTEM_LIBRARIES}
 )
