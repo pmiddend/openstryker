@@ -9,7 +9,6 @@
 #include <sge/renderer/pixel_format/optional_multi_samples.hpp>
 #include <sge/renderer/pixel_format/srgb.hpp>
 #include <sge/systems/cursor_option_field.hpp>
-#include <sge/systems/keyboard_collector.hpp>
 #include <sge/systems/input.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/make_list.hpp>
@@ -23,11 +22,14 @@
 #include <sge/systems/with_window.hpp>
 #include <sge/viewport/fill_on_resize.hpp>
 #include <sge/viewport/optional_resize_callback.hpp>
+#include <sge/window/loop.hpp>
+#include <sge/window/loop_function.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
 #include <alda/raw/stream/error.hpp>
 #include <awl/show_error.hpp>
 #include <awl/show_error_narrow.hpp>
+#include <awl/event/base_fwd.hpp>
 #include <awl/main/exit_code.hpp>
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/exit_success.hpp>
@@ -80,11 +82,7 @@ try
       sge::systems::with_renderer<
         sge::systems::renderer_caps::core
       >,
-      sge::systems::with_input<
-        boost::mpl::vector1<
-          sge::systems::keyboard_collector
-        >
-      >
+      sge::systems::with_input
     >
   >
   const sys(
@@ -115,11 +113,11 @@ try
   // TODO
   sys.window_system().quit(awl::main::exit_success());
 
-  while(
-   sys.window_system().poll()
-  ) ;
-
-  return sys.window_system().exit_code();
+  return sge::window::loop(
+    sys.window_system(),
+    sge::window::loop_function{
+      [](awl::event::base const &) {}
+    });
 }
 catch(fcppt::exception const &_error)
 {
