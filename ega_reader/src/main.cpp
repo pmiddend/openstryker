@@ -9,7 +9,7 @@
 #include <fcppt/string.hpp>
 #include <fcppt/algorithm/map.hpp>
 #include <fcppt/container/grid/object.hpp>
-#include <fcppt/cast/promote.hpp>
+#include <fcppt/cast/promote_int.hpp>
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/container/grid/make_pos_ref_crange_start_end.hpp>
 #include <fcppt/container/grid/min.hpp>
@@ -128,7 +128,7 @@ write_ppm(
                   p,
                   [](unsigned char const e)
                   {
-                    return std::to_string(fcppt::cast::promote(e));
+                    return std::to_string(fcppt::cast::promote_int(e));
                   }));
 
               return s + " " + mapped.r() + " " + mapped.g() + " " + mapped.b();
