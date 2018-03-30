@@ -46,7 +46,7 @@
 #include <fcppt/config/external_begin.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/path.hpp>
-#include <boost/mpl/vector/vector10.hpp>
+#include <brigand/sequences/list.hpp>
 #include <exception>
 #include <stdexcept>
 #include <fcppt/config/external_end.hpp>
@@ -77,7 +77,7 @@ try
       })};
 
   sge::systems::instance<
-    boost::mpl::vector3<
+    brigand::list<
       sge::systems::with_window,
       sge::systems::with_renderer<
         sge::systems::renderer_caps::core
