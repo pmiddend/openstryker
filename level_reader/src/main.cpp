@@ -5,7 +5,8 @@
 #include <fcppt/args_vector.hpp>
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
-#include <fcppt/to_std_string.hpp>
+#include <fcppt/text.hpp>
+#include <fcppt/io/cerr.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/either/match.hpp>
@@ -62,7 +63,7 @@ try
             libstryker::level::read(file_stream),
             [](alda::raw::stream::error const &_error)
             {
-              std::cerr << "Reading failed: " << fcppt::to_std_string(_error.get()) << '\n';
+              fcppt::io::cerr() << FCPPT_TEXT("Reading failed: ") << _error.get() << FCPPT_TEXT('\n');
               return EXIT_FAILURE;
             },
             [](libstryker::level::record const &_level)

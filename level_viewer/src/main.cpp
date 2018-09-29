@@ -39,7 +39,6 @@
 #include <fcppt/exception.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
-#include <fcppt/to_std_string.hpp>
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
@@ -48,7 +47,6 @@
 #include <boost/filesystem/path.hpp>
 #include <brigand/sequences/list.hpp>
 #include <exception>
-#include <stdexcept>
 #include <fcppt/config/external_end.hpp>
 
 
@@ -64,7 +62,7 @@ try
     fcppt::optional::to_exception(
       fcppt::container::at_optional(args,1u),
       []{
-        return std::runtime_error("Usage: level_viewer <level-file>");
+        return fcppt::exception(FCPPT_TEXT("Usage: level_viewer <level-file>"));
       }).get());
 
   boost::filesystem::ifstream stream(boost::filesystem::path{file_name});
@@ -73,7 +71,7 @@ try
     fcppt::either::to_exception(
       libstryker::level::read(stream),
       [](alda::raw::stream::error const &_error){
-        return std::runtime_error{"Failed to read level! " + fcppt::to_std_string(_error.get())};
+        return fcppt::exception{FCPPT_TEXT("Failed to read level! ") + _error.get()};
       })};
 
   sge::systems::instance<
