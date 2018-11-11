@@ -104,6 +104,8 @@ namespace
 {
 namespace ega
 {
+namespace
+{
 
 std::string
 write_ppm(
@@ -145,6 +147,7 @@ write_ppm(
               return result + new_row + "\n";
             });
       });
+}
 }
 }
 }

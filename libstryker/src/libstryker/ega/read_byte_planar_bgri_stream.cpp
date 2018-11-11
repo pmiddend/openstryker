@@ -46,6 +46,8 @@ namespace
 {
 namespace ega
 {
+namespace
+{
 typedef
 fcppt::container::grid::object<bool,2>
 pixel_plane;
@@ -112,6 +114,7 @@ bgri_indices_to_pixel(
 	libstryker::ega::rgb_pixel_map(
 	  libstryker::ega::rgb_pixel<bool>{r,g,b},
 	  [](bool const p) { return p ? 0xa8 : 0; }));
+}
 }
 }
 }

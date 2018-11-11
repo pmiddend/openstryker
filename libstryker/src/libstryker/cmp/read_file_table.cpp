@@ -27,6 +27,8 @@ namespace
 {
 namespace cmp
 {
+namespace
+{
 
 fcppt::optional::object<std::uint32_t>
 read_uint32le_from_istream(std::istream &s)
@@ -75,6 +77,7 @@ read_single_file_table_entry(
       });
 }
 
+}
 }
 }
 

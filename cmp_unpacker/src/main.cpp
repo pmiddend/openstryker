@@ -22,6 +22,8 @@ namespace
 {
 namespace cmp
 {
+namespace
+{
 
 void
 write_vector_to_filesystem(
@@ -33,6 +35,7 @@ write_vector_to_filesystem(
   stream.write(v.data(), static_cast<std::streamsize>(v.size()));
   if(!stream)
     std::cerr << "Failed writing " << base_path << '\n';
+}
 }
 }
 }
