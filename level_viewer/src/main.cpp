@@ -50,10 +50,10 @@
 #include <fcppt/config/external_end.hpp>
 
 
-awl::main::exit_code
+awl::main::exit_code const
 level_viewer_main(awl::main::function_context const &);
 
-awl::main::exit_code
+awl::main::exit_code const
 level_viewer_main(awl::main::function_context const &_args)
 try
 {
