@@ -3,14 +3,7 @@ fcppt_utils_link_target(
 )
 
 find_package(
-	Boost REQUIRED
-	COMPONENTS
-	filesystem
-	system
-)
-
-find_package(
-        fcppt REQUIRED
+	fcppt REQUIRED
 )
 
 find_package(
@@ -93,7 +86,6 @@ function(
 		PUBLIC
 		${FCPPT_UTILS_PROJECT_BINARY_DIR}/include
 		${CMAKE_CURRENT_SOURCE_DIR}/include
-		${Boost_INCLUDE_DIRS}
 	)
 
 	fcppt_utils_interface_static_link(
@@ -109,8 +101,7 @@ function(
 		fcppt_core_interface
 		PRIVATE
 		${fcppt_core_TARGET}
-		${Boost_FILESYSTEM_LIBRARIES}
-		${Boost_SYSTEM_LIBRARIES}
+		${FCPPT_UTILS_FILESYSTEM_LIBRARIES}
 	)
 
 	fcppt_utils_export_install_target(

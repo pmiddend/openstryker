@@ -12,10 +12,10 @@
 #include <fcppt/config/external_begin.hpp>
 #include <exception>
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 #include <ostream>
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/fstream.hpp>
+#include <filesystem>
 #include <fcppt/config/external_end.hpp>
 
 namespace
@@ -28,10 +28,10 @@ namespace
 void
 write_vector_to_filesystem(
   fcppt::io::buffer const &v,
-  boost::filesystem::path const &base_path)
+  std::filesystem::path const &base_path)
 {
   std::cout << "Writing " << base_path << "\n";
-  boost::filesystem::ofstream stream{base_path};
+  std::ofstream stream{base_path};
   stream.write(v.data(), static_cast<std::streamsize>(v.size()));
   if(!stream)
     std::cerr << "Failed writing " << base_path << '\n';
@@ -62,10 +62,10 @@ try
       },
       [](fcppt::reference<fcppt::string const> file_name)
       {
-        boost::filesystem::ifstream file_stream{boost::filesystem::path{file_name.get()}};
+        std::ifstream file_stream{std::filesystem::path{file_name.get()}};
         libstryker::cmp::file_table const files{libstryker::cmp::read_file_table(file_stream)};
         std::cout << "found " << files.size() << " file(s)\n";
-        boost::filesystem::path base_path{"data/"};
+        std::filesystem::path base_path{"data/"};
         fcppt::algorithm::loop(
           files,
           [&base_path,&file_stream](libstryker::cmp::file_table::value_type const &fte)

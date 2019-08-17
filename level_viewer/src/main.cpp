@@ -43,9 +43,9 @@
 #include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <boost/filesystem/path.hpp>
 #include <brigand/sequences/list.hpp>
+#include <filesystem>
+#include <fstream>
 #include <exception>
 #include <fcppt/config/external_end.hpp>
 
@@ -65,7 +65,7 @@ try
         return fcppt::exception(FCPPT_TEXT("Usage: level_viewer <level-file>"));
       }).get());
 
-  boost::filesystem::ifstream stream(boost::filesystem::path{file_name});
+  std::ifstream stream(std::filesystem::path{file_name});
 
   libstryker::level::record const level{
     fcppt::either::to_exception(

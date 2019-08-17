@@ -13,11 +13,11 @@
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/record/output.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include <array>
 #include <cstdlib>
 #include <exception>
+#include <fstream>
 #include <iostream>
 #include <ostream>
 #include <vector>
@@ -56,8 +56,8 @@ try
       },
       [](fcppt::reference<fcppt::string const> file_name)
       {
-        boost::filesystem::path const file_path{file_name.get()};
-        boost::filesystem::ifstream file_stream{file_path};
+        std::filesystem::path const file_path{file_name.get()};
+        std::ifstream file_stream{file_path};
         return
           fcppt::either::match(
             libstryker::level::read(file_stream),

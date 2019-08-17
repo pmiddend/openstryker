@@ -4,11 +4,6 @@ find_package(mizuiro REQUIRED)
 find_package(
   sge REQUIRED
   COMPONENTS renderer systems viewport window)
-find_package(
-  Boost REQUIRED
-  COMPONENTS
-  filesystem
-  system)
 
 include(AwlMainGenerator)
 
@@ -30,6 +25,5 @@ target_link_libraries(
   ${libstryker_TARGET}
   ${awl_TARGET}
   ${fcppt_core_TARGET}
-  ${Boost_FILESYSTEM_LIBRARIES}
-  ${Boost_SYSTEM_LIBRARIES}
+  ${FCPPT_UTILS_FILESYSTEM_LIBRARIES}
 )

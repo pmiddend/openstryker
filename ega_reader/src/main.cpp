@@ -18,10 +18,10 @@
 #include <fcppt/math/dim/comparison.hpp>
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <boost/filesystem/fstream.hpp>
-#include <boost/filesystem/path.hpp>
+#include <filesystem>
 #include <cstdlib>
 #include <exception>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -174,9 +174,9 @@ try
       },
       [](fcppt::reference<fcppt::string const> const file_name)
       {
-        boost::filesystem::path const ega_file_name{file_name.get()};
+        std::filesystem::path const ega_file_name{file_name.get()};
 
-        boost::filesystem::ifstream fs{ega_file_name};
+        std::ifstream fs{ega_file_name};
 
         auto image = libstryker::ega::read_byte_planar_bgri_stream(fs);
 
