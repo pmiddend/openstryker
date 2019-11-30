@@ -43,7 +43,7 @@
 #include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <brigand/sequences/list.hpp>
+#include <metal/list/list.hpp>
 #include <filesystem>
 #include <fstream>
 #include <exception>
@@ -75,7 +75,7 @@ try
       })};
 
   sge::systems::instance<
-    brigand::list<
+    metal::list<
       sge::systems::with_window,
       sge::systems::with_renderer<
         sge::systems::renderer_caps::core
