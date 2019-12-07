@@ -43,7 +43,7 @@
 #include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <metal/list/list.hpp>
+#include <metal.hpp>
 #include <filesystem>
 #include <fstream>
 #include <exception>
