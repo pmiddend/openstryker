@@ -43,7 +43,6 @@
 #include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <metal.hpp>
 #include <filesystem>
 #include <fstream>
 #include <exception>
@@ -75,13 +74,11 @@ try
       })};
 
   sge::systems::instance<
-    metal::list<
-      sge::systems::with_window,
-      sge::systems::with_renderer<
-        sge::systems::renderer_caps::core
-      >,
-      sge::systems::with_input
-    >
+    sge::systems::with_window,
+    sge::systems::with_renderer<
+      sge::systems::renderer_caps::core
+    >,
+    sge::systems::with_input
   >
   const sys(
     sge::systems::make_list
