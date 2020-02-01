@@ -6,16 +6,16 @@
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/algorithm/loop.hpp>
-#include <fcppt/io/buffer.hpp>
 #include <fcppt/container/at_optional.hpp>
+#include <fcppt/io/buffer.hpp>
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <exception>
 #include <cstdlib>
+#include <exception>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <ostream>
-#include <filesystem>
 #include <fcppt/config/external_end.hpp>
 
 namespace

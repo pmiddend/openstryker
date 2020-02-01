@@ -1,5 +1,6 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
+#include <alda/raw/stream/error.hpp>
 #include <sge/renderer/display_mode/optional_object.hpp>
 #include <sge/renderer/display_mode/parameters.hpp>
 #include <sge/renderer/display_mode/vsync.hpp>
@@ -26,7 +27,6 @@
 #include <sge/window/loop_function.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
-#include <alda/raw/stream/error.hpp>
 #include <awl/show_error.hpp>
 #include <awl/show_error_narrow.hpp>
 #include <awl/event/base_fwd.hpp>
@@ -43,9 +43,9 @@
 #include <fcppt/either/to_exception.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <exception>
 #include <filesystem>
 #include <fstream>
-#include <exception>
 #include <fcppt/config/external_end.hpp>
 
 

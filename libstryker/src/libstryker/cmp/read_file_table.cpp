@@ -5,7 +5,6 @@
 #include <fcppt/endianness/format.hpp>
 #include <fcppt/io/buffer.hpp>
 #include <fcppt/io/read.hpp>
-#include <fcppt/io/read.hpp>
 #include <fcppt/io/read_chars.hpp>
 #include <fcppt/optional/apply.hpp>
 #include <fcppt/optional/bind.hpp>

@@ -9,8 +9,8 @@
 #include <fcppt/config/external_begin.hpp>
 #include <istream>
 #include <iterator>
-#include <string>
 #include <stdexcept>
+#include <string>
 #include <fcppt/config/external_end.hpp>
 
 

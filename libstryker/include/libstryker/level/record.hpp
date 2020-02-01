@@ -5,14 +5,14 @@
 #include <alda/bindings/array_decl.hpp>
 #include <alda/bindings/dynamic_len_decl.hpp>
 #include <alda/bindings/fundamental_decl.hpp>
-#include <alda/bindings/unsigned_decl.hpp>
 #include <alda/bindings/record_variadic.hpp>
 #include <alda/bindings/static_decl.hpp>
+#include <alda/bindings/unsigned_decl.hpp>
 #include <alda/raw/element_type.hpp>
-#include <fcppt/record/element.hpp>
-#include <fcppt/record/make_label.hpp>
 #include <fcppt/endianness/format.hpp>
 #include <fcppt/math/vector/static.hpp>
+#include <fcppt/record/element.hpp>
+#include <fcppt/record/make_label.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <array>
 #include <cstddef>

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+LIBS=(--library libstryker --library alda --library sge --library awl --library mizuiro --library fcppt)
+DIRS=(
+	cmp_unpacker
+	ega_reader
+	level_reader
+	level_viewer
+	libstryker
+)
+
+prettify_includes "${LIBS[@]}" "${DIRS[@]}"

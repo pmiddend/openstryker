@@ -4,13 +4,13 @@
 #include <libstryker/level/string_decl.hpp>
 #include <alda/bindings/array.hpp>
 #include <alda/bindings/fundamental.hpp>
-#include <alda/raw/element_type.hpp>
 #include <alda/raw/dispatch_type.hpp>
+#include <alda/raw/element_type.hpp>
 #include <alda/raw/make_generic.hpp>
 #include <alda/raw/stream/bind.hpp>
 #include <alda/raw/stream/reference.hpp>
-#include <alda/raw/stream/return.hpp>
 #include <alda/raw/stream/result.hpp>
+#include <alda/raw/stream/return.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <algorithm>
 #include <array>
