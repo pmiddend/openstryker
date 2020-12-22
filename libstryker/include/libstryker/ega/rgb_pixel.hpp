@@ -10,7 +10,7 @@ namespace ega
 template<typename T>
 struct rgb_pixel
 {
-  typedef T value_type;
+  using value_type = T;
 
   rgb_pixel(
     value_type const _r,
@@ -22,11 +22,11 @@ struct rgb_pixel
     b_{_b}
   {}
 
-  value_type r() const { return r_; }
+  [[nodiscard]] value_type r() const { return r_; }
 
-  value_type g() const { return g_; }
+  [[nodiscard]] value_type g() const { return g_; }
 
-  value_type b() const { return b_; }
+  [[nodiscard]] value_type b() const { return b_; }
 private:
   value_type r_;
   value_type g_;

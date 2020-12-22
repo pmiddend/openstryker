@@ -14,9 +14,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace ega
+namespace libstryker::ega
 {
 
 template<typename T>
@@ -40,7 +38,6 @@ operator*(
 }
 
 }
-}
 
 namespace
 {
@@ -48,9 +45,8 @@ namespace ega
 {
 namespace
 {
-typedef
-fcppt::container::grid::object<bool,2>
-pixel_plane;
+using pixel_plane =
+fcppt::container::grid::object<bool,2>;
 
 pixel_plane
 read_pixel_plane(
@@ -58,12 +54,14 @@ read_pixel_plane(
   pixel_plane::dim const &dims,
   std::streamsize const stride)
 {
-  if(dims.w() % 8u != 0)
+  if(dims.w() % 8U != 0)
+  {
     throw std::runtime_error(std::to_string(dims.w())+" is not a multiple of 8");
-  // TODO: Express this using an init function
+  }
+  // TODO(philipp): Express this using an init function
   pixel_plane result(dims,false);
   for(
-    pixel_plane::iterator current_pixel = result.begin();
+    auto current_pixel = result.begin();
     current_pixel != result.end();)
   {
     char const c{
@@ -83,7 +81,7 @@ read_pixel_plane(
     *current_pixel++ = c & 4;
     *current_pixel++ = c & 2;
     *current_pixel++ = c & 1;
-    s.ignore(stride);
+    s.ignore(stride); // NOLINT(fuchsia-default-arguments-calls)
   }
 
   return result;
@@ -107,12 +105,15 @@ bgri_indices_to_pixel(
   return
     r && g && !i && !b
     ?
+      // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
       libstryker::ega::rgb_pixel<unsigned char>{0xa8,0x54,0}
     :
       rgb_pixel_static_cast<unsigned char>(
+    // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
 	((i ? 1 : 0) * libstryker::ega::rgb_pixel<int>{0x54,0x54,0x54}) +
 	libstryker::ega::rgb_pixel_map(
 	  libstryker::ega::rgb_pixel<bool>{r,g,b},
+      // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
 	  [](bool const p) { return p ? 0xa8 : 0; }));
 }
 }
@@ -123,7 +124,7 @@ libstryker::ega::rgb_pixel_grid
 libstryker::ega::read_byte_planar_bgri_stream(
   std::istream &s)
 {
-  rgb_pixel_grid::dim const d{320u,192u};
+  rgb_pixel_grid::dim const d{320U,192U}; // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
 //  auto d = rgb_pixel_grid::dim{16u,3480u};
 //  auto d = rgb_pixel_grid::dim{16u,3840u};
   std::streamoff const stream_start{s.tellg()};

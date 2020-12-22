@@ -30,7 +30,9 @@ std::ostream &operator<<(std::ostream &_stream,std::array<T,N> const &_array)
 {
   _stream << '(';
   for(T const &val : _array)
+  {
     _stream << val << ',';
+  }
   return _stream << ')';
 }
 template<typename T>
@@ -38,7 +40,9 @@ std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array)
 {
   _stream << '(';
   for(T const &val : _array)
+  {
     _stream << val << ',';
+  }
   return _stream << ')';
 }
 }
@@ -49,15 +53,15 @@ try
   fcppt::args_vector const args(fcppt::args(argc,argv));
   return
     fcppt::optional::maybe(
-      fcppt::container::at_optional(args,1u),
+      fcppt::container::at_optional(args,1U),
       []{
         std::cerr << "usage: level_reader <level-file>\n";
         return EXIT_FAILURE;
       },
       [](fcppt::reference<fcppt::string const> file_name)
       {
-        std::filesystem::path const file_path{file_name.get()};
-        std::ifstream file_stream{file_path};
+        std::filesystem::path const file_path{file_name.get()}; // NOLINT(fuchsia-default-arguments-calls)
+        std::ifstream file_stream{file_path}; // NOLINT(fuchsia-default-arguments-calls)
         return
           fcppt::either::match(
             libstryker::level::read(file_stream),

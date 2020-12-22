@@ -17,7 +17,7 @@ template<
 >
 struct string
 {
-  typedef std::string element_type;
+  using element_type = std::string;
 };
 
 }

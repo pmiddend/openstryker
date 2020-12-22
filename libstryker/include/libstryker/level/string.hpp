@@ -32,7 +32,8 @@ make_generic(
 	alda::raw::stream::reference<Stream> _stream
 )
 {
-  typedef alda::bindings::array<std::array<char, N>,alda::bindings::fundamental<char>> wrapped;
+  using wrapped =
+  alda::bindings::array<std::array<char, N>,alda::bindings::fundamental<char>>;
   return
     alda::raw::stream::bind<Stream>(
       alda::raw::make_generic<Stream, wrapped>(_stream),

@@ -25,25 +25,22 @@ namespace libstryker
 namespace level
 {
 
-typedef
+using tile_array =
 std::array<
   std::uint16_t,
-  16767
->
-tile_array;
+  16767 // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+>;
 
-typedef
+using string_binding =
 libstryker::level::string<
-  12
->
-string_binding;
+  12 // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+>;
 
-typedef
+using ui16le_binding =
 alda::bindings::unsigned_<
   std::uint16_t,
   fcppt::endianness::format::little
->
-ui16le_binding;
+>;
 
 FCPPT_RECORD_MAKE_LABEL(
   actor_type_role
@@ -53,21 +50,19 @@ FCPPT_RECORD_MAKE_LABEL(
   actor_pos_role
 );
 
-typedef
+using actor_pos =
 fcppt::math::vector::static_<
   std::uint16_t,
   2
->
-actor_pos;
+>;
 
-typedef
+using actor_pos_binding =
 alda::bindings::static_<
   actor_pos,
   ui16le_binding
->
-actor_pos_binding;
+>;
 
-typedef
+using actor_record_binding =
 alda::bindings::record_variadic<
   fcppt::record::element<
     actor_type_role,
@@ -77,20 +72,17 @@ alda::bindings::record_variadic<
     actor_pos_role,
     actor_pos_binding
   >
->
-actor_record_binding;
+>;
 
-typedef
+using actor_record =
 alda::raw::element_type<
   actor_record_binding
->
-actor_record;
+>;
 
-typedef
+using actor_vector =
 std::vector<
   actor_record
->
-actor_vector;
+>;
 
 struct actor_size_policy
 {
@@ -103,41 +95,34 @@ struct actor_size_policy
     return
       static_cast<
         std::uint16_t
-      >(
-        _size
-        /
-        3u
-      );
+      >(_size / 3U);
   }
 };
 
-typedef
+using actor_binding =
 alda::bindings::dynamic_len<
   actor_vector,
   actor_record_binding,
   ui16le_binding,
   actor_size_policy
->
-actor_binding;
+>;
 
-typedef
+using unknown_binding =
 alda::bindings::array<
   std::array<
     std::uint8_t,
-    480
+    480 // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
   >,
   alda::bindings::fundamental<
     std::uint8_t
   >
->
-unknown_binding;
+>;
 
-typedef
+using tile_array_binding =
 alda::bindings::array<
   tile_array,
   ui16le_binding
->
-tile_array_binding;
+>;
 
 FCPPT_RECORD_MAKE_LABEL(
   mask_tiles_role
@@ -187,7 +172,7 @@ FCPPT_RECORD_MAKE_LABEL(
   tile_role
 );
 
-typedef
+using record_binding =
 alda::bindings::record_variadic<
   fcppt::record::element<
     mask_tiles_role,
@@ -237,14 +222,12 @@ alda::bindings::record_variadic<
     tile_role,
     tile_array_binding
   >
->
-record_binding;
+>;
 
-typedef
+using record =
 alda::raw::element_type<
   record_binding
->
-record;
+>;
 
 }
 }

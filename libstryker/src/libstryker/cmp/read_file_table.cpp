@@ -39,7 +39,7 @@ read_uint32le_from_istream(std::istream &s)
 fcppt::optional::object<std::string>
 read_string_from_istream(std::istream &s,std::size_t const n)
 {
-  // TODO: Use the alda binding here
+  // TODO(philipp): Use the alda binding here
   return
     fcppt::optional::map(
       fcppt::io::read_chars(s,n),
@@ -58,6 +58,7 @@ read_single_file_table_entry(
   return
     fcppt::optional::bind(
       fcppt::optional::filter(
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
         cmp::read_string_from_istream(s,12),
         [](std::string const &file_name) { return !file_name.empty(); }),
       [&s](std::string const &file_name)
@@ -84,9 +85,8 @@ libstryker::cmp::file_table
 libstryker::cmp::read_file_table(
   std::istream &file_stream)
 {
-  typedef
-  std::vector<fcppt::optional::object<libstryker::cmp::file_table_entry>>
-  optional_file_table;
+  using optional_file_table =
+  std::vector<fcppt::optional::object<libstryker::cmp::file_table_entry>>;
 
   // We don't know in what state the stream is in - better seek to the
   // beginning
@@ -95,7 +95,8 @@ libstryker::cmp::read_file_table(
   return
     fcppt::optional::cat<libstryker::cmp::file_table>(
       fcppt::algorithm::generate_n<optional_file_table>(
-        200u,
+        // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+        200U,
        [&file_stream]() {
           return ::cmp::read_single_file_table_entry(file_stream);
        }));

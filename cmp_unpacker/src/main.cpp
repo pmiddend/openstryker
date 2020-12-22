@@ -31,10 +31,12 @@ write_vector_to_filesystem(
   std::filesystem::path const &base_path)
 {
   std::cout << "Writing " << base_path << "\n";
-  std::ofstream stream{base_path};
+  std::ofstream stream{base_path}; // NOLINT(fuchsia-default-arguments-calls)
   stream.write(v.data(), static_cast<std::streamsize>(v.size()));
   if(!stream)
+  {
     std::cerr << "Failed writing " << base_path << '\n';
+  }
 }
 }
 }
@@ -55,17 +57,17 @@ try
   fcppt::args_vector const args(fcppt::args(argc,argv));
   return
     fcppt::optional::maybe(
-      fcppt::container::at_optional(args,1u),
+      fcppt::container::at_optional(args,1U),
       []{
         print_usage();
         return EXIT_FAILURE;
       },
       [](fcppt::reference<fcppt::string const> file_name)
       {
-        std::ifstream file_stream{std::filesystem::path{file_name.get()}};
+        std::ifstream file_stream{std::filesystem::path{file_name.get()}}; // NOLINT(fuchsia-default-arguments-calls)
         libstryker::cmp::file_table const files{libstryker::cmp::read_file_table(file_stream)};
         std::cout << "found " << files.size() << " file(s)\n";
-        std::filesystem::path base_path{"data/"};
+        std::filesystem::path base_path{"data/"}; // NOLINT(fuchsia-default-arguments-calls)
         fcppt::algorithm::loop(
           files,
           [&base_path,&file_stream](libstryker::cmp::file_table::value_type const &fte)
@@ -73,7 +75,7 @@ try
             std::cout << "Writing " << fte.name() << " to data/\n";
             cmp::write_vector_to_filesystem(
               libstryker::cmp::read_cmp_entry(fte,file_stream),
-              base_path / fte.name());
+              base_path / fte.name()); // NOLINT(fuchsia-default-arguments-calls)
         });
         return EXIT_SUCCESS;
       });

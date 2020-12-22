@@ -34,44 +34,32 @@ template<typename T>
 std::vector<std::vector<T>>
 grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
 {
-  using namespace fcppt::container::grid;
+  namespace grid = fcppt::container::grid;
   using fcppt::algorithm::map;
 
-  typedef
-  object<T,2>
-  input_grid;
+  using input_grid = grid::object<T,2>;
 
-  typedef typename
-  input_grid::pos
-  input_pos;
+  using input_pos = typename input_grid::pos;
 
-  typedef typename
-  input_grid::size_type
-  input_size_type;
+  using input_size_type = typename input_grid::size_type;
 
-  typedef
-  pos_ref_range<input_grid const>
-  pos_ref_range;
+  using pos_ref_range = grid::pos_ref_range<input_grid const>;
 
-  typedef
-  std::vector<pos_ref_range>
-  row_vector;
+  using row_vector = std::vector<pos_ref_range>;
 
-  row_vector const row_ranges =
+  auto const row_ranges =
     map<row_vector>(
       fcppt::make_int_range<input_size_type>(0,g.size().h()),
       [&g](input_size_type const y)
       {
         return
-          make_pos_ref_crange_start_end<input_grid>(
+          grid::make_pos_ref_crange_start_end<input_grid>(
               g,
-              min<input_size_type,2>(input_pos{0u,y}),
-              sup<input_size_type,2>(input_pos(g.size().w(),y+1u)));
+              grid::min<input_size_type,2>(input_pos{0U,y}),
+              grid::sup<input_size_type,2>(input_pos(g.size().w(),y+1U)));
       });
 
-  typedef
-  std::vector<std::vector<T>>
-  result_vector;
+  using result_vector = std::vector<std::vector<T>>;
 
   return
     map<result_vector>(
@@ -81,7 +69,7 @@ grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
         return
           map<typename result_vector::value_type>(
             row,
-            [](pos_reference<input_grid const> const &posref) { return posref.value(); });
+            [](grid::pos_reference<input_grid const> const &posref) { return posref.value(); });
       });
 }
 
@@ -167,16 +155,16 @@ try
   fcppt::args_vector const args(fcppt::args(argc,argv));
   return
     fcppt::optional::maybe(
-      fcppt::container::at_optional(args,1u),
+      fcppt::container::at_optional(args,1U),
       []{
         print_usage();
         return EXIT_FAILURE;
       },
       [](fcppt::reference<fcppt::string const> const file_name)
       {
-        std::filesystem::path const ega_file_name{file_name.get()};
+        std::filesystem::path const ega_file_name{file_name.get()}; // NOLINT(fuchsia-default-arguments-calls)
 
-        std::ifstream fs{ega_file_name};
+        std::ifstream fs{ega_file_name}; // NOLINT(fuchsia-default-arguments-calls)
 
         auto image = libstryker::ega::read_byte_planar_bgri_stream(fs);
 

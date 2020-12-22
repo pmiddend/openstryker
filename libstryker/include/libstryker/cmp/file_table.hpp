@@ -12,9 +12,8 @@ namespace libstryker
 namespace cmp
 {
 
-typedef
-std::vector<libstryker::cmp::file_table_entry>
-file_table;
+using file_table =
+std::vector<libstryker::cmp::file_table_entry>;
 
 }
 }

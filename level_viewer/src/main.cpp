@@ -59,12 +59,12 @@ try
   fcppt::args_vector const args(fcppt::args(_args.argc(),_args.argv()));
   fcppt::string const file_name(
     fcppt::optional::to_exception(
-      fcppt::container::at_optional(args,1u),
+      fcppt::container::at_optional(args,1U),
       []{
         return fcppt::exception(FCPPT_TEXT("Usage: level_viewer <level-file>"));
       }).get());
 
-  std::ifstream stream(std::filesystem::path{file_name});
+  std::ifstream stream(std::filesystem::path{file_name}); // NOLINT(fuchsia-default-arguments-calls)
 
   libstryker::level::record const level{
     fcppt::either::to_exception(
@@ -105,7 +105,7 @@ try
     )
   );
 
-  // TODO
+  // TODO(philipp)
   sys.window_system().quit(awl::main::exit_success());
 
   return sge::window::loop(

@@ -14,7 +14,7 @@ namespace cmp
 {
 
 struct file_table_entry {
-  typedef std::uint32_t size_type;
+  using size_type = std::uint32_t;
 
   file_table_entry(
     std::string _name,
@@ -26,9 +26,9 @@ struct file_table_entry {
     size_{_size}
   {}
 
-  std::string const &name() const  { return name_; }
-  size_type offset() const { return offset_; }
-  size_type size() const { return size_; }
+  [[nodiscard]] std::string const &name() const  { return name_; }
+  [[nodiscard]] size_type offset() const { return offset_; }
+  [[nodiscard]] size_type size() const { return size_; }
 private:
   std::string name_;
   size_type offset_;

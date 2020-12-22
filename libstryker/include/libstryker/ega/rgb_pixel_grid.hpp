@@ -10,9 +10,8 @@ namespace libstryker
 namespace ega
 {
 
-typedef
-fcppt::container::grid::object<libstryker::ega::rgb_pixel<unsigned char>,2>
-rgb_pixel_grid;
+using rgb_pixel_grid =
+fcppt::container::grid::object<libstryker::ega::rgb_pixel<unsigned char>,2>;
 
 }
 }
