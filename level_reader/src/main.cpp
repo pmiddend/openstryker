@@ -6,6 +6,7 @@
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
+#include <fcppt/array/object_impl.hpp>
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/either/match.hpp>
 #include <fcppt/io/cerr.hpp>
@@ -13,7 +14,6 @@
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/record/output.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <array>
 #include <cstdlib>
 #include <exception>
 #include <filesystem>
@@ -25,8 +25,8 @@
 
 namespace std
 {
-template<typename T, std::size_t N>
-std::ostream &operator<<(std::ostream &_stream,std::array<T,N> const &_array)
+template<typename T>
+std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array)
 {
   _stream << '(';
   for(T const &val : _array)
@@ -35,8 +35,13 @@ std::ostream &operator<<(std::ostream &_stream,std::array<T,N> const &_array)
   }
   return _stream << ')';
 }
-template<typename T>
-std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array)
+}
+
+// TODO(philipp)
+namespace fcppt::array
+{
+template<typename T, std::size_t N>
+std::ostream &operator<<(std::ostream &_stream,fcppt::array::object<T,N> const &_array)
 {
   _stream << '(';
   for(T const &val : _array)

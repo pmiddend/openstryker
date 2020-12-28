@@ -9,12 +9,12 @@
 #include <alda/bindings/static_decl.hpp>
 #include <alda/bindings/unsigned_decl.hpp>
 #include <alda/raw/element_type.hpp>
+#include <fcppt/array/object_impl.hpp>
 #include <fcppt/endianness/format.hpp>
 #include <fcppt/math/vector/static.hpp>
 #include <fcppt/record/element.hpp>
 #include <fcppt/record/make_label.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <array>
 #include <cstddef>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
@@ -26,7 +26,7 @@ namespace level
 {
 
 using tile_array =
-std::array<
+fcppt::array::object<
   std::uint16_t,
   16767 // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
 >;
@@ -109,7 +109,7 @@ alda::bindings::dynamic_len<
 
 using unknown_binding =
 alda::bindings::array<
-  std::array<
+  fcppt::array::object<
     std::uint8_t,
     480 // NOLINT(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
   >,

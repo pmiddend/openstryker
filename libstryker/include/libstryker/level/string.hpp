@@ -11,9 +11,9 @@
 #include <alda/raw/stream/reference.hpp>
 #include <alda/raw/stream/result.hpp>
 #include <alda/raw/stream/return.hpp>
+#include <fcppt/array/object_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <algorithm>
-#include <array>
 #include <cstddef>
 #include <string>
 #include <fcppt/config/external_end.hpp>
@@ -33,7 +33,7 @@ make_generic(
 )
 {
   using wrapped =
-  alda::bindings::array<std::array<char, N>,alda::bindings::fundamental<char>>;
+  alda::bindings::array<fcppt::array::object<char, N>,alda::bindings::fundamental<char>>;
   return
     alda::raw::stream::bind<Stream>(
       alda::raw::make_generic<Stream, wrapped>(_stream),
