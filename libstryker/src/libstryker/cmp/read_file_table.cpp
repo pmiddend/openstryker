@@ -2,7 +2,6 @@
 #include <libstryker/cmp/file_table_entry.hpp>
 #include <libstryker/cmp/read_file_table.hpp>
 #include <fcppt/algorithm/generate_n.hpp>
-#include <fcppt/endianness/format.hpp>
 #include <fcppt/io/buffer.hpp>
 #include <fcppt/io/read.hpp>
 #include <fcppt/io/read_chars.hpp>
@@ -14,6 +13,7 @@
 #include <fcppt/optional/object.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <algorithm>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <istream>
@@ -32,7 +32,7 @@ namespace
 fcppt::optional::object<std::uint32_t>
 read_uint32le_from_istream(std::istream &s)
 {
-  return fcppt::io::read<std::uint32_t>(s,fcppt::endianness::format::little);
+  return fcppt::io::read<std::uint32_t>(s,std::endian::little);
 }
 
 

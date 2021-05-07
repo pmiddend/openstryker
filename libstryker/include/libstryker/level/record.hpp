@@ -10,11 +10,11 @@
 #include <alda/bindings/unsigned_decl.hpp>
 #include <alda/raw/element_type.hpp>
 #include <fcppt/array/object_impl.hpp>
-#include <fcppt/endianness/format.hpp>
 #include <fcppt/math/vector/static.hpp>
 #include <fcppt/record/element.hpp>
 #include <fcppt/record/make_label.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <bit>
 #include <cstddef>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
@@ -39,7 +39,7 @@ libstryker::level::string<
 using ui16le_binding =
 alda::bindings::unsigned_<
   std::uint16_t,
-  fcppt::endianness::format::little
+  std::endian::little
 >;
 
 FCPPT_RECORD_MAKE_LABEL(
