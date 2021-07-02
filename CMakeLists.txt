@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.3)
 project(openstryker)
 
 find_package(fcppt REQUIRED)
-find_package(Metal REQUIRED)
 include(FcpptCMakeUtils)
 
 fcppt_utils_static_shared()
