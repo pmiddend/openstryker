@@ -2,7 +2,9 @@
 #include <libstryker/cmp/read_cmp_entry.hpp>
 #include <libstryker/cmp/read_file_table.hpp>
 #include <fcppt/args.hpp>
+#include <fcppt/args_char.hpp>
 #include <fcppt/args_vector.hpp>
+#include <fcppt/main.hpp>
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/algorithm/loop.hpp>
@@ -51,7 +53,7 @@ void print_usage()
 }
 
 int
-main(int argc, char ** argv)
+FCPPT_MAIN(int argc, fcppt::args_char ** argv)
 try
 {
   fcppt::args_vector const args(fcppt::args(argc,argv));

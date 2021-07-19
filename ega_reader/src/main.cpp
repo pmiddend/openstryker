@@ -3,7 +3,9 @@
 #include <libstryker/ega/rgb_pixel_grid.hpp>
 #include <libstryker/ega/rgb_pixel_map.hpp>
 #include <fcppt/args.hpp>
+#include <fcppt/args_char.hpp>
 #include <fcppt/args_vector.hpp>
+#include <fcppt/main.hpp>
 #include <fcppt/make_int_range.hpp>
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
@@ -149,7 +151,7 @@ void print_usage()
 }
 }
 
-int main(int argc, char ** argv)
+int FCPPT_MAIN(int argc, fcppt::args_char ** argv)
 try
 {
   fcppt::args_vector const args(fcppt::args(argc,argv));

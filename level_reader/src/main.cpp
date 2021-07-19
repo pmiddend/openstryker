@@ -2,7 +2,9 @@
 #include <libstryker/level/record.hpp>
 #include <alda/raw/stream/error.hpp>
 #include <fcppt/args.hpp>
+#include <fcppt/args_char.hpp>
 #include <fcppt/args_vector.hpp>
+#include <fcppt/main.hpp>
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
@@ -52,7 +54,7 @@ std::ostream &operator<<(std::ostream &_stream,fcppt::array::object<T,N> const &
 }
 }
 
-int main(int argc, char **argv)
+int FCPPT_MAIN(int argc, fcppt::args_char **argv)
 try
 {
   fcppt::args_vector const args(fcppt::args(argc,argv));
