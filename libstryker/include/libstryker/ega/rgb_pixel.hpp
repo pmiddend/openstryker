@@ -2,9 +2,7 @@
 #define LIBSTRYKER_EGA_RGB_PIXEL_HPP_INCLUDED
 
 
-namespace libstryker
-{
-namespace ega
+namespace libstryker::ega
 {
 
 template<typename T>
@@ -33,7 +31,6 @@ private:
   value_type b_;
 };
 
-}
 }
 
 #endif

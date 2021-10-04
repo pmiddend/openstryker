@@ -8,9 +8,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace cmp
+namespace libstryker::cmp
 {
 
 struct file_table_entry {
@@ -35,7 +33,6 @@ private:
   size_type size_;
 };
 
-}
 }
 
 #endif

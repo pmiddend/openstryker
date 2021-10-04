@@ -5,15 +5,12 @@
 #include <fcppt/container/grid/object.hpp>
 
 
-namespace libstryker
-{
-namespace ega
+namespace libstryker::ega
 {
 
 using rgb_pixel_grid =
 fcppt::container::grid::object<libstryker::ega::rgb_pixel<unsigned char>,2>;
 
-}
 }
 
 #endif

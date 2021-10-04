@@ -4,9 +4,7 @@
 #include <libstryker/ega/rgb_pixel.hpp>
 
 
-namespace libstryker
-{
-namespace ega
+namespace libstryker::ega
 {
 
 template<typename T,typename Function>
@@ -23,7 +21,6 @@ rgb_pixel_map(
       function(p.b())};
 }
 
-}
 }
 
 #endif

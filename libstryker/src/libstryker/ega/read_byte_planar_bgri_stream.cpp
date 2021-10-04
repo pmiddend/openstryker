@@ -73,14 +73,14 @@ read_pixel_plane(
               + std::to_string(std::distance(result.begin(),current_pixel))
               +"th pixel"};
     })};
-    *current_pixel++ = c & 128;
-    *current_pixel++ = c & 64;
-    *current_pixel++ = c & 32;
-    *current_pixel++ = c & 16;
-    *current_pixel++ = c & 8;
-    *current_pixel++ = c & 4;
-    *current_pixel++ = c & 2;
-    *current_pixel++ = c & 1;
+    *current_pixel++ = ((c & 128) != 0);
+    *current_pixel++ = ((c & 64) != 0);
+    *current_pixel++ = ((c & 32) != 0);
+    *current_pixel++ = ((c & 16) != 0);
+    *current_pixel++ = ((c & 8) != 0);
+    *current_pixel++ = ((c & 4) != 0);
+    *current_pixel++ = ((c & 2) != 0);
+    *current_pixel++ = ((c & 1) != 0);
     s.ignore(stride); // NOLINT(fuchsia-default-arguments-calls)
   }
 

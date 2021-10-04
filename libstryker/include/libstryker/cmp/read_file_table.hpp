@@ -8,9 +8,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace cmp
+namespace libstryker::cmp
 {
 
 LIBSTRYKER_DETAIL_SYMBOL
@@ -18,7 +16,6 @@ libstryker::cmp::file_table
 read_file_table(
   std::istream &);
 
-}
 }
 
 #endif

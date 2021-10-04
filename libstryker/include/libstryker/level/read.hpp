@@ -10,9 +10,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace level
+namespace libstryker::level
 {
 
 LIBSTRYKER_DETAIL_SYMBOL
@@ -22,7 +20,6 @@ fcppt::either::object<
 read(
   std::istream &);
 
-}
 }
 
 #endif

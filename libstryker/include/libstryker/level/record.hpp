@@ -20,9 +20,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace level
+namespace libstryker::level
 {
 
 using tile_array =
@@ -229,7 +227,6 @@ alda::raw::element_type<
   record_binding
 >;
 
-}
 }
 
 #endif

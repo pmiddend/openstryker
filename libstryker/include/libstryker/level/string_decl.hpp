@@ -7,9 +7,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace level
+namespace libstryker::level
 {
 
 template<
@@ -20,7 +18,6 @@ struct string
   using element_type = std::string;
 };
 
-}
 }
 
 #endif

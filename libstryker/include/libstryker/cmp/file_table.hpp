@@ -7,15 +7,12 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace cmp
+namespace libstryker::cmp
 {
 
 using file_table =
 std::vector<libstryker::cmp::file_table_entry>;
 
-}
 }
 
 #endif

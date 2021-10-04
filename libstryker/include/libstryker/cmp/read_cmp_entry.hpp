@@ -8,9 +8,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace cmp
+namespace libstryker::cmp
 {
 
 struct file_table_entry;
@@ -21,7 +19,6 @@ read_cmp_entry(
   libstryker::cmp::file_table_entry const &,
   std::istream &);
 
-}
 }
 
 #endif

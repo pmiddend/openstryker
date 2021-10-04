@@ -19,9 +19,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace level
+namespace libstryker::level
 {
 
 template<typename Stream, std::size_t N>
@@ -45,7 +43,6 @@ make_generic(
       });
 }
 
-}
 }
 
 #endif

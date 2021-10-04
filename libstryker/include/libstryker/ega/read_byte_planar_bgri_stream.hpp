@@ -8,9 +8,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace libstryker
-{
-namespace ega
+namespace libstryker::ega
 {
 
 LIBSTRYKER_DETAIL_SYMBOL
@@ -18,7 +16,6 @@ libstryker::ega::rgb_pixel_grid
 read_byte_planar_bgri_stream(
   std::istream &);
 
-}
 }
 
 #endif
