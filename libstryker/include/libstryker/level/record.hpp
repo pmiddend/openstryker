@@ -15,7 +15,7 @@
 #include <fcppt/record/make_label.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <bit>
-#include <cstddef>
+#include <cstdint>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
 
