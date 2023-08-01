@@ -68,12 +68,14 @@ read_single_file_table_entry(
         fcppt::optional::object<std::uint32_t> const size{
           cmp::read_uint32le_from_istream(s)};
         return fcppt::optional::apply(
-          [&file_name](std::uint32_t const _offset, std::uint32_t const _size){
-            return
-              libstryker::cmp::file_table_entry{
-                file_name, _offset, _size};
-          },
-          offset, size);
+            [&file_name](std::uint32_t const _offset,
+                         std::uint32_t const _size) {
+              return libstryker::cmp::file_table_entry{
+                  file_name,
+                  libstryker::cmp::file_table_entry::offset_type{_offset},
+                  libstryker::cmp::file_table_entry::count_type{_size}};
+            },
+            offset, size);
       });
 }
 
