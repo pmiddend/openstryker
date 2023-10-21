@@ -9,15 +9,16 @@
 #include <fcppt/make_int_range.hpp>
 #include <fcppt/reference.hpp>
 #include <fcppt/string.hpp>
+#include <fcppt/algorithm/fold.hpp>
 #include <fcppt/algorithm/map.hpp>
 #include <fcppt/cast/promote_int.hpp>
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/container/grid/make_pos_ref_crange_start_end.hpp>
 #include <fcppt/container/grid/min.hpp>
 #include <fcppt/container/grid/object.hpp>
+#include <fcppt/container/grid/pos_ref_range.hpp>
 #include <fcppt/container/grid/pos_reference.hpp>
 #include <fcppt/container/grid/sup.hpp>
-#include <fcppt/math/dim/comparison.hpp>
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <cstdlib>

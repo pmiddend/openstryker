@@ -12,7 +12,7 @@
 #include <fcppt/container/at_optional.hpp>
 #include <fcppt/either/match.hpp>
 #include <fcppt/io/cerr.hpp>
-#include <fcppt/math/vector/output.hpp>
+#include <fcppt/math/vector/output.hpp> // NOLINT(misc-include-cleaner)
 #include <fcppt/optional/maybe.hpp>
 #include <fcppt/record/output.hpp>
 #include <fcppt/config/external_begin.hpp>

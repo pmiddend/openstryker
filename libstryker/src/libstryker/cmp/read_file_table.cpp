@@ -16,6 +16,7 @@
 #include <bit>
 #include <cstddef>
 #include <cstdint>
+#include <ios>
 #include <istream>
 #include <string>
 #include <vector>

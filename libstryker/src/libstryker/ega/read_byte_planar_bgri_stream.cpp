@@ -7,6 +7,7 @@
 #include <fcppt/io/get.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <ios>
 #include <istream>
 #include <iterator>
 #include <stdexcept>

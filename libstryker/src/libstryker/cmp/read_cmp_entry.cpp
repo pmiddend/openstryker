@@ -4,6 +4,7 @@
 #include <fcppt/io/read_chars.hpp>
 #include <fcppt/optional/to_exception.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <ios>
 #include <istream>
 #include <stdexcept>
 #include <fcppt/config/external_end.hpp>

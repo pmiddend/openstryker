@@ -1,11 +1,11 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
-#include <libstryker/level/string.hpp>
-#include <alda/bindings/array.hpp>
-#include <alda/bindings/dynamic_len.hpp>
-#include <alda/bindings/fundamental.hpp>
-#include <alda/bindings/static.hpp>
-#include <alda/bindings/unsigned.hpp>
+#include <libstryker/level/string.hpp> // NOLINT(misc-include-cleaner)
+#include <alda/bindings/array.hpp> // NOLINT(misc-include-cleaner)
+#include <alda/bindings/dynamic_len.hpp> // NOLINT(misc-include-cleaner)
+#include <alda/bindings/fundamental.hpp> // NOLINT(misc-include-cleaner)
+#include <alda/bindings/static.hpp> // NOLINT(misc-include-cleaner)
+#include <alda/bindings/unsigned.hpp> // NOLINT(misc-include-cleaner)
 #include <alda/raw/make_generic.hpp>
 #include <alda/raw/stream/error.hpp>
 #include <alda/raw/stream/istream.hpp>
