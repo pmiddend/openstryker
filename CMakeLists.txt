@@ -4,7 +4,8 @@ project(openstryker)
 
 find_package(fcppt REQUIRED)
 
-set(
+list(
+	APPEND
 	FCPPT_UTILS_CLANG_TIDY_ADDITIONAL_CHECKS
 	"-cppcoreguidelines-avoid-const-or-ref-data-members"
 	"-misc-misplaced-const"
