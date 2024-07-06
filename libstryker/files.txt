@@ -1,0 +1,16 @@
+libstryker/include/libstryker/cmp/file_table_entry.hpp
+libstryker/include/libstryker/cmp/file_table.hpp
+libstryker/include/libstryker/cmp/read_cmp_entry.hpp
+libstryker/include/libstryker/cmp/read_file_table.hpp
+libstryker/include/libstryker/ega/read_byte_planar_bgri_stream.hpp
+libstryker/include/libstryker/ega/rgb_pixel_grid.hpp
+libstryker/include/libstryker/ega/rgb_pixel.hpp
+libstryker/include/libstryker/ega/rgb_pixel_map.hpp
+libstryker/include/libstryker/level/read.hpp
+libstryker/include/libstryker/level/record.hpp
+libstryker/include/libstryker/level/string_decl.hpp
+libstryker/include/libstryker/level/string.hpp
+libstryker/src/libstryker/cmp/read_cmp_entry.cpp
+libstryker/src/libstryker/cmp/read_file_table.cpp
+libstryker/src/libstryker/ega/read_byte_planar_bgri_stream.cpp
+libstryker/src/libstryker/level/read.cpp

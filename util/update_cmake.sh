@@ -2,8 +2,7 @@
 
 set -e -u
 
-update_cmake \
-	libstryker/CMakeLists.txt \
-	LIBSTRYKER_FILES \
+update_cmake.sh \
+	libstryker/files.txt \
 	libstryker/include \
 	libstryker/src
