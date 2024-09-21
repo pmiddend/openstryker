@@ -28,7 +28,7 @@
 namespace std
 {
 template<typename T>
-std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array)
+std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array) // NOLINT(misc-use-internal-linkage)
 {
   _stream << '(';
   for(T const &val : _array)
@@ -43,7 +43,7 @@ std::ostream &operator<<(std::ostream &_stream,std::vector<T> const &_array)
 namespace fcppt::array
 {
 template<typename T, std::size_t N>
-std::ostream &operator<<(std::ostream &_stream,fcppt::array::object<T,N> const &_array)
+std::ostream &operator<<(std::ostream &_stream,fcppt::array::object<T,N> const &_array) // NOLINT(misc-use-internal-linkage)
 {
   _stream << '(';
   for(T const &val : _array)

@@ -1,6 +1,9 @@
 #ifndef LIBSTRYKER_EGA_RGB_PIXEL_HPP_INCLUDED
 #define LIBSTRYKER_EGA_RGB_PIXEL_HPP_INCLUDED
 
+#include <fcppt/config/external_begin.hpp>
+#include <utility>
+#include <fcppt/config/external_end.hpp>
 
 namespace libstryker::ega
 {
@@ -11,13 +14,13 @@ struct rgb_pixel
   using value_type = T;
 
   rgb_pixel(
-    value_type const _r,
-    value_type const _g,
-    value_type const _b)
+    value_type _r,
+    value_type _g,
+    value_type _b)
   :
-    r_{_r},
-    g_{_g},
-    b_{_b}
+    r_{std::move(_r)},
+    g_{std::move(_g)},
+    b_{std::move(_b)}
   {}
 
   [[nodiscard]] value_type r() const { return r_; }

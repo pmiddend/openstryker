@@ -20,7 +20,7 @@ namespace libstryker::ega
 
 template<typename T>
 rgb_pixel<T>
-operator+(
+operator+( // NOLINT(misc-use-internal-linkage)
   rgb_pixel<T> const &l,
   rgb_pixel<T> const &r)
 {
@@ -30,7 +30,7 @@ operator+(
 
 template<typename T>
 rgb_pixel<T>
-operator*(
+operator*( // NOLINT(misc-use-internal-linkage)
   T const m,
   rgb_pixel<T> const &p)
 {
