@@ -17,6 +17,7 @@ target_link_libraries(
           ${sgeviewport_TARGET}
           ${sgewindow_TARGET}
           ${libstryker_TARGET}
+          ${alda_TARGET}
           ${awl_TARGET}
           ${fcppt_core_TARGET}
           ${FCPPT_UTILS_FILESYSTEM_LIBRARIES})

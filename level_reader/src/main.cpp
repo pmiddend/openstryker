@@ -1,6 +1,7 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
 #include <alda/raw/stream/error.hpp>
+#include <alda/raw/stream/error_output.hpp>
 #include <fcppt/args.hpp>
 #include <fcppt/args_char.hpp>
 #include <fcppt/args_vector.hpp>
@@ -74,7 +75,7 @@ try
             libstryker::level::read(file_stream),
             [](alda::raw::stream::error const &_error)
             {
-              fcppt::io::cerr() << FCPPT_TEXT("Reading failed: ") << _error.get() << FCPPT_TEXT('\n');
+              fcppt::io::cerr() << FCPPT_TEXT("Reading failed: ") << _error << FCPPT_TEXT('\n');
               return EXIT_FAILURE;
             },
             [](libstryker::level::record const &_level)

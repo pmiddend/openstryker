@@ -1,6 +1,7 @@
 #include <libstryker/level/read.hpp>
 #include <libstryker/level/record.hpp>
 #include <alda/raw/stream/error.hpp>
+#include <alda/raw/stream/error_output.hpp> // IWYU pragma: keep
 #include <sge/renderer/display_mode/optional_object.hpp>
 #include <sge/renderer/display_mode/parameters.hpp>
 #include <sge/renderer/display_mode/vsync.hpp>
@@ -37,6 +38,7 @@
 #include <fcppt/args.hpp>
 #include <fcppt/args_vector.hpp>
 #include <fcppt/exception.hpp>
+#include <fcppt/output_to_fcppt_string.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/container/at_optional.hpp>
@@ -66,11 +68,11 @@ try
 
   std::ifstream stream(std::filesystem::path{file_name}); // NOLINT(fuchsia-default-arguments-calls)
 
-  libstryker::level::record const level{
-    fcppt::either::to_exception(
+  libstryker::level::record const level{fcppt::either::to_exception(
       libstryker::level::read(stream),
-      [](alda::raw::stream::error const &_error){
-        return fcppt::exception{FCPPT_TEXT("Failed to read level! ") + _error.get()};
+      [](alda::raw::stream::error const &_error) {
+        return fcppt::exception{FCPPT_TEXT("Failed to read level! ") +
+                                fcppt::output_to_fcppt_string(_error)};
       })};
 
   sge::systems::instance<

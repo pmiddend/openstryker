@@ -2,8 +2,6 @@ fcppt_utils_link_target(libstryker)
 
 find_package(fcppt REQUIRED)
 
-find_package(alda REQUIRED)
-
 fcppt_utils_load_source_files(libstryker/files.txt LIBSTRYKER_FILES)
 
 set(LIBSTRYKER_STATIC_LINK_FLAG LIBSTRYKER_STATIC_LINK)
@@ -38,7 +36,7 @@ function(add_libstryker_library VARIANT)
   target_link_libraries(
     ${LIBSTRYKER_LIB_NAME}
     PUBLIC alda_interface fcppt_core_interface
-    PRIVATE ${fcppt_core_TARGET} ${FCPPT_UTILS_FILESYSTEM_LIBRARIES})
+    PRIVATE ${alda_TARGET} ${fcppt_core_TARGET} ${FCPPT_UTILS_FILESYSTEM_LIBRARIES})
 
   fcppt_utils_export_install_target(${LIBSTRYKER_LIB_NAME})
 endfunction()

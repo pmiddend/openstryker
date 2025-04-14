@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.27.0)
 project(openstryker)
 
 find_package(fcppt REQUIRED)
+find_package(alda REQUIRED)
 
 list(APPEND FCPPT_UTILS_CLANG_TIDY_ADDITIONAL_CHECKS
      "-cppcoreguidelines-avoid-const-or-ref-data-members"
