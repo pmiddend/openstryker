@@ -42,9 +42,9 @@ grid_row_vectors(fcppt::container::grid::object<T,2> const &g)
 
   using input_grid = grid::object<T,2>;
 
-  using input_pos = typename input_grid::pos;
+  using input_pos = input_grid::pos;
 
-  using input_size_type = typename input_grid::size_type;
+  using input_size_type = input_grid::size_type;
 
   using pos_ref_range = grid::pos_ref_range<input_grid const>;
 

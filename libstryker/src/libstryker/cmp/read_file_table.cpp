@@ -48,7 +48,7 @@ read_string_from_istream(std::istream &s,std::size_t const n)
       {
         return std::string{
             chars.begin(),
-            std::find(chars.begin(),chars.end(),0)};
+            std::ranges::find(chars.begin(),chars.end(),0)};
       });
 }
 
